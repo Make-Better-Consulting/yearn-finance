@@ -89,7 +89,7 @@ function CDP({ changeTheme }) {
   const renderCDPs = () => {
     const status = getStatus(cdps);
     return (
-      <div>
+      <div className={classes.fixtop}>
         <Paper elevation={0} className={classes.overviewContainer}>
           <div className={classes.overviewCard}>
             <CDPSuppliedGraph assets={cdps} />
@@ -136,7 +136,7 @@ function CDP({ changeTheme }) {
         <Paper elevation={0} className={classes.tableContainer}>
           <CDPActiveTable cdps={cdps} borrowAsset={borrowAsset} />
         </Paper>
-        <div className={classes.cdpFilters}>
+        <Paper className={classes.cdpFilters}>
           <TextField
             className={classes.searchContainer}
             variant="outlined"
@@ -152,7 +152,7 @@ function CDP({ changeTheme }) {
               ),
             }}
           />
-        </div>
+        </Paper>
         <Typography variant="h6" className={classes.tableHeader}>
           All CDP Options
         </Typography>
@@ -165,11 +165,28 @@ function CDP({ changeTheme }) {
 
   const renderNoCDPs = () => {
     return (
-      <div>
-        <Paper elevation={0} className={classes.overviewContainer}>
+      <div className={classes.fixtop}>
+      <Paper className={classes.cdpFilters}>
+        <TextField
+          className={classes.searchContainer}
+          variant="outlined"
+          fullWidth
+          placeholder="ETH, CRV, ..."
+          value={search}
+          onChange={onSearchChanged}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Paper>
+        <Paper elevation={0} className={classes.overviewContainer2}>
           <div className={classes.overviewCard}>
             <Typography variant="h1" className={classes.fillerContent}>
-              Unit
+              Unit Protocol
             </Typography>
             <div className={classes.fillerText}>
               <Typography>Yearn CDP's are powered by Unit Protocol</Typography>
@@ -181,7 +198,7 @@ function CDP({ changeTheme }) {
           <div className={classes.separator}></div>
           <div className={classes.overviewCard}>
             <Typography variant="h1" className={classes.fillerContent}>
-              About
+              About Unit
             </Typography>
             <Typography className={classes.fillerText}>
               Unit Protocol is a decentralized protocol that allows you to mint stablecoin $USDP using a variety of tokens as collateral.
@@ -190,29 +207,13 @@ function CDP({ changeTheme }) {
           <div className={classes.separator}></div>
           <div className={classes.overviewCard}>
             <Typography variant="h1" className={classes.fillerContent}>
-              Start
+              Get Started
             </Typography>
             <Typography className={classes.fillerText}>To get started with Yearn CDPs, click on the asset from the table below and open your CDP.</Typography>
           </div>
         </Paper>
         <div>
-          <div className={classes.cdpFilters}>
-            <TextField
-              className={classes.searchContainer}
-              variant="outlined"
-              fullWidth
-              placeholder="ETH, CRV, ..."
-              value={search}
-              onChange={onSearchChanged}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
+
         </div>
         <Typography variant="h6" className={classes.tableHeader}>
           All CDP Options

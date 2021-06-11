@@ -224,7 +224,7 @@ function VaultAssetDetails({ vault, account }) {
         </div>
         <div className={classes.infoField}>
           <Typography variant={'h5'} color="textSecondary">
-            Borrow limit used:
+            Borrow limit usedsss:
           </Typography>
           <div className={classes.flexy}>
             <Typography variant={'h6'} noWrap>
