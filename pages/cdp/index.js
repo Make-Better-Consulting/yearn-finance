@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Typography, Paper, TextField, InputAdornment, Tooltip } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
 import SearchIcon from '@material-ui/icons/Search';
-import BigNumber from 'bignumber.js';
 
 import Head from 'next/head';
 import Layout from '../../components/layout/layout.js';
@@ -89,8 +87,8 @@ function CDP({ changeTheme }) {
   const renderCDPs = () => {
     const status = getStatus(cdps);
     return (
-      <div className={classes.fixtop}>
-        <Paper elevation={0} className={classes.overviewContainer}>
+      <div>
+        <Paper elevation={0} className={classes.overviewContainer2}>
           <div className={classes.overviewCard}>
             <CDPSuppliedGraph assets={cdps} />
             <Tooltip title={ cdpSupplied === 'Unknown' ? 'Unable to calculate the supplied amount. This is most likely because the price oracle is out of date.' : 'Dollar value of the assets that you have supplied to the protocol' }>
@@ -165,7 +163,7 @@ function CDP({ changeTheme }) {
 
   const renderNoCDPs = () => {
     return (
-      <div className={classes.fixtop}>
+      <div>
       <Paper className={classes.cdpFilters}>
         <TextField
           className={classes.searchContainer}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, TextField } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
@@ -9,23 +9,15 @@ import stores from "../../stores/index.js";
 
 import classes from "./gasSpeed.module.css";
 
-export default function GasSpeed({ vault, setParentSpeed }) {
+export default function GasSpeed({ setParentSpeed }) {
   const storeGasPrices = stores.accountStore.getStore("gasPrices");
 
   const [gasSpeed, setGasSpeed] = useState("fast");
-  const [customSpeed, setCustomSpeed] = useState("");
   const [gasPrices, setGasPrices] = useState(storeGasPrices);
 
   const handleGasSpeedChanged = (event, newVal) => {
     setGasSpeed(newVal);
     setParentSpeed(newVal);
-  };
-
-  const customSpeedChanged = event => {
-    if (event.target.value !== "") {
-      setGasSpeed("");
-    }
-    setCustomSpeed(event.target.value);
   };
 
   useEffect(() => {
@@ -54,19 +46,11 @@ export default function GasSpeed({ vault, setParentSpeed }) {
         onChange={handleGasSpeedChanged}
         className={classes.gasSpeed}
       >
-        <ToggleButton value="slow">
-          <div className={classes.toggleButtonText}>
-            <Typography variant="h5">Slow</Typography>
-            <Typography className={classes.smallText}>
-              {gasPrices.slow} Gwei
-            </Typography>
-          </div>
-        </ToggleButton>
         <ToggleButton value="standard">
           <div className={classes.toggleButtonText}>
             <Typography variant="h5">Standard</Typography>
             <Typography className={classes.smallText}>
-              {gasPrices.standard} Gwei
+              {gasPrices?.standard?.toFixed(0)} Gwei
             </Typography>
           </div>
         </ToggleButton>
@@ -74,7 +58,7 @@ export default function GasSpeed({ vault, setParentSpeed }) {
           <div className={classes.toggleButtonText}>
             <Typography variant="h5">Fast</Typography>
             <Typography className={classes.smallText}>
-              {gasPrices.fast} Gwei
+              {gasPrices?.fast?.toFixed(0)} Gwei
             </Typography>
           </div>
         </ToggleButton>
@@ -82,7 +66,7 @@ export default function GasSpeed({ vault, setParentSpeed }) {
           <div className={classes.toggleButtonText}>
             <Typography variant="h5">Instant</Typography>
             <Typography className={classes.smallText}>
-              {gasPrices.instant} Gwei
+              {gasPrices?.instant?.toFixed(0)} Gwei
             </Typography>
           </div>
         </ToggleButton>
@@ -90,14 +74,3 @@ export default function GasSpeed({ vault, setParentSpeed }) {
     </div>
   );
 }
-
-/*
-
-<TextField
-  variant="outlined"
-  placeholder="custom"
-  value={ customSpeed }
-  onChange={ customSpeedChanged }
-/>
-
-*/

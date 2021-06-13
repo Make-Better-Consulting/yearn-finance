@@ -1,8 +1,5 @@
-import { Typography, Paper, Tooltip } from '@material-ui/core';
+import { Typography, Tooltip } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import BigNumber from 'bignumber.js';
-import { useRouter } from 'next/router';
-
 import { ETHERSCAN_URL } from '../../stores/constants';
 
 import classes from './vaultStrategyCard.module.css';
@@ -76,6 +73,12 @@ export default function vaultStrategyCard({ strategy, vault }) {
       return `This vault accepts deposits of ${tokens} tokens obtained by supplying supported tokens to the liquidity pool on Curve. ${tokens} tokens are staked in the gauge on Curve to earn CRV rewards. Rewards are swapped for one of the underlying assets and resupplied to the liquidity pool to obtain more ${tokens}.`;
     } else if (name.includes('StrategystETHCurve')) {
       return 'This vault accepts deposits of steCRV tokens obtained by supplying either ETH or stETH to the liquidity pool on Curve here. steCRV are staked in the gauge on curve.finance to earn CRV and LDO rewards. Rewards are swapped for WETH and resupplied to the liquidity pool to obtain more steCRV.';
+    } else if (name.includes('StrategyRook')) {
+      return `Supplies ${tokens} to KeeperDAO to farm ROOK. Rewards are harvested, sold for more ${tokens}, and deposited back into the vault.`
+    } else if (name.includes('StrategySynthetixSusdMinter')) {
+      return `Stakes SNX at Synthetix to mint sUSD. The newly minted sUSD is then deposited into the v2 sUSD yVault to earn yield. Yield from sUSD and rewards from weekly fees plus vested rewards (when claimable) are swapped for more SNX and re-deposited into the vault.`
+    } else if (name.includes('Convex')) {
+      return `Supplies ${tokens} to Convex Finance to farm CVX. Rewards are harvested, sold for more ${tokens}, and deposited back into the vault.`
     }
 
     else {

@@ -169,6 +169,7 @@
     margin-left: 24px;
     margin-right: 24px;
   }
+
   .statsContainer {
     padding: 24px;
   }
@@ -213,5 +214,11 @@
   }
   .subTitle {
     display: none;
+  }
+
+  .overviewContainer2 {
+    left: 0px;
+    padding: 20px 10px 30px 10px;
+    top: 0px;
   }
 }

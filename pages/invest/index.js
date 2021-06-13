@@ -10,7 +10,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import classes from './invest.module.css';
 import VaultAssetRow from '../../components/vaultAssetRow';
 import VaultCard from '../../components/vaultCard';
-import VaultGrowthNumbers from '../../components/vaultGrowthNumbers';
 import VaultSplitGraph from '../../components/vaultSplitGraph';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
@@ -18,14 +17,12 @@ import BigNumber from 'bignumber.js';
 import Popover from '@material-ui/core/Popover';
 import HelpIcon from '@material-ui/icons/Help';
 
-import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import StarIcon from '@material-ui/icons/Star';
 import SearchIcon from '@material-ui/icons/Search';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-import PieChartIcon from '@material-ui/icons/PieChart';
 import AppsIcon from '@material-ui/icons/Apps';
 import ListIcon from '@material-ui/icons/List';
 import Table from '@material-ui/core/Table';
@@ -52,6 +49,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+const Podium = ({ vaults, isStableCoin, handlePopoverOpen, handleNavigate }) => (
+  <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+    {vaults.length > 4 &&
+      vaults.slice(0, 3).map((vault, i) => (
+        <li key={i}>
+          <span style={{ fontSize: '20px', marginRight: "12px" }}>
+            {i === 0 ? '🥇' : null}
+            {i === 1 ? '🥈' : null}
+            {i === 2 ? '🥉' : null}
+          </span>
+          <span
+            href={`/vaults/${vault.nonLowerCaseAddress}`}
+            onClick={() => handleNavigate(vault)}
+            className={classes.topVaultPerformersLink}
+          >
+            {`${vault.label} (${vault.version})`} {(vault.apy * 100).toFixed(2)}%{' '}
+          </span>
+          <HelpIcon
+            style={{ cursor: 'pointer', width: 15 }}
+            onClick={event => handlePopoverOpen(event, vault, isStableCoin)}
+          />
+        </li>
+      ))}
+  </ul>
+);
+
 function Invest({ changeTheme }) {
   const localClasses = useStyles();
   const router = useRouter();
@@ -68,7 +92,6 @@ function Invest({ changeTheme }) {
   const storeHighestHoldings = stores.investStore.getStore('highestHoldings');
   const account = stores.accountStore.getStore('account');
 
-  const localStorageCoinTypes = localStorage.getItem('yearn.finance-invest-coin-types');
   const localStoragelayout = localStorage.getItem('yearn.finance-invest-layout');
   const localStorageversions = localStorage.getItem('yearn.finance-invest-versions');
 
@@ -79,11 +102,9 @@ function Invest({ changeTheme }) {
   const [highestHoldings, setHighestHoldings] = useState(storeHighestHoldings);
   const [search, setSearch] = useState('');
   const [versions, setVersions] = useState(JSON.parse(localStorageversions ? localStorageversions : '[]'));
-  const [coinTypes, setCoinTypes] = useState(JSON.parse(localStorageCoinTypes ? localStorageCoinTypes : '[]'));
   const [layout, setLayout] = useState(localStoragelayout ? localStoragelayout : 'grid');
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('none');
-  const [zapperVaults, setZapperVaults] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [investPopoverText, setInvestPopoverText] = useState('');
   const handlePopoverOpen = (event, vault, isStableCoin) => {
@@ -93,10 +114,10 @@ function Invest({ changeTheme }) {
       popoverText = `invest 1 ${symbol} and get ${formatCurrency(1 * (1 + vault.apy))} ${symbol} in a year at current rate. Note that rates are not fixed.`;
     }
     setInvestPopoverText(popoverText);
-    setAnchorEl(event.curreFgrontTarget);
+    setAnchorEl(event.currentTarget);
   };
 
-  const handlePopoverClose = (event) => {
+  const handlePopoverClose = () => {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
@@ -128,8 +149,10 @@ function Invest({ changeTheme }) {
         if (v.address.toLowerCase() === vault.address.toLowerCase()) {
           v.apy = vault.apy?.recommended;
           v.nonLowerCaseAddress = vault.address;
+          v.symbol = vault.symbol;
+          v.label = vault.displayName;
         }
-        if(v.apy === 'New') {
+        if (v.apy === 'New') {
           v.apy = 0
         }
       });
@@ -141,7 +164,7 @@ function Invest({ changeTheme }) {
         otherVaults.push(v);
       }
     });
-    stableCoinVaults.sort((a, b) => {
+    const vaultSort = (a, b) => {
       if (orderBy === 'none') {
         if (BigNumber(a.apy).gt(BigNumber(b.apy))) {
           return -1;
@@ -149,25 +172,10 @@ function Invest({ changeTheme }) {
           return 1;
         }
       }
-    });
-    ethBTCVaults.sort((a, b) => {
-      if (orderBy === 'none') {
-        if (BigNumber(a.apy).gt(BigNumber(b.apy))) {
-          return -1;
-        } else if (BigNumber(a.apy).lt(BigNumber(b.apy))) {
-          return 1;
-        }
-      }
-    });
-    otherVaults.sort((a, b) => {
-      if (orderBy === 'none') {
-        if (BigNumber(a.apy).gt(BigNumber(b.apy))) {
-          return -1;
-        } else if (BigNumber(a.apy).lt(BigNumber(b.apy))) {
-          return 1;
-        }
-      }
-    });
+    };
+    stableCoinVaults.sort(vaultSort);
+    ethBTCVaults.sort(vaultSort);
+    otherVaults.sort(vaultSort);
     setTopVaultPerformers({ stableCoinVaults: stableCoinVaults, ethBTCVaults: ethBTCVaults, otherVaults: otherVaults });
   };
   React.useEffect(() => {
@@ -307,11 +315,6 @@ function Invest({ changeTheme }) {
     localStorage.setItem('yearn.finance-invest-versions', newVals && newVals.length ? JSON.stringify(newVals) : '');
   };
 
-  const handeCoinTypesChanged = (event, newVals) => {
-    setCoinTypes(newVals);
-    localStorage.setItem('yearn.finance-invest-coin-types', newVals && newVals.length ? JSON.stringify(newVals) : '');
-  };
-
   const handleLayoutChanged = (event, newVal) => {
     if (newVal !== null) {
       setLayout(newVal);
@@ -351,7 +354,7 @@ function Invest({ changeTheme }) {
     return (
       <TableHead className={classes.tablehead}>
         <TableRow>
-          {headers.map((headCell, i) =>
+          {headers.map(headCell =>
             headCell.show ? (
               <TableCell
                 key={headCell.id}
@@ -385,61 +388,61 @@ function Invest({ changeTheme }) {
 
         <Paper elevation={0} className={classes.overviewContainer2}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={4}>
+            <Grid item lg={4} md={4} xs={12} sm={12}>
               <div className={classes.overviewCard}>
-              {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton variant="circle" width={80} height={80} />}
-              <div>
-              <Typography variant="h2">Portfolio Balance</Typography>
-              <Typography variant="h1" className={classes.headAmount}>
-                {porfolioBalance === null ? <Skeleton style={{ minWidth: '200px ' }} /> : '$ ' + formatCurrency(porfolioBalance)}
-              </Typography>
-              </div>
+                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton variant="circle" width={80} height={80} />}
+                <div>
+                  <Typography variant="h2">Portfolio Balance</Typography>
+                  <Typography variant="h1" className={classes.headAmount}>
+                    {porfolioBalance === null ? <Skeleton style={{ minWidth: '200px ' }} /> : '$ ' + formatCurrency(porfolioBalance)}
+                  </Typography>
+                </div>
               </div>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item lg={4} md={4} xs={12} sm={12}>
               <div className={classes.overviewCard}>
-              {porfolioBalance !== null ? (
-              <div className={classes.portfolioOutline}>
-              <Lottie className={classes.growthanimclass} animationData={growthanim} />
+                {porfolioBalance !== null ? (
+                  <div className={classes.portfolioOutline}>
+                    <Lottie className={classes.growthanimclass} animationData={growthanim} />
 
-              </div>
-              ) : (
-              <Skeleton variant="circle" width={80} height={80} />
-              )}
-              <div>
-              <Typography variant="h2">Yearly Growth</Typography>
-              <Typography variant="h1" className={classes.headAmount}>
-                {porfolioBalance === null ? (
-                  <Skeleton style={{ minWidth: '200px ' }} />
+                  </div>
                 ) : (
-                  '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
+                  <Skeleton variant="circle" width={80} height={80} />
                 )}
-              </Typography>
-              </div>
+                <div>
+                  <Typography variant="h2">Yearly Growth</Typography>
+                  <Typography variant="h1" className={classes.headAmount}>
+                    {porfolioBalance === null ? (
+                      <Skeleton style={{ minWidth: '200px ' }} />
+                    ) : (
+                      '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
+                    )}
+                  </Typography>
+                </div>
               </div>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item lg={4} md={4} xs={12} sm={12}>
               <div className={classes.overviewCard}>
-              {porfolioBalance !== null ? (
-              <div className={classes.portfolioOutline}>
-                {' '}
-                <Lottie className={classes.rocketanimclass} animationData={rocket} />
-              </div>
-              ) : (
-              <Skeleton variant="circle" width={80} height={80} />
-              )}
-              <div>
-              <Typography variant="h2">Highest Balance</Typography>
-              <Typography variant="h1" className={classes.headAmount}>
-                {highestHoldings === null ? (
-                  <Skeleton style={{ minWidth: '200px ' }} />
-                ) : highestHoldings === 'None' ? (
-                  highestHoldings
+                {porfolioBalance !== null ? (
+                  <div className={classes.portfolioOutline}>
+                    {' '}
+                    <Lottie className={classes.rocketanimclass} animationData={rocket} />
+                  </div>
                 ) : (
-                  highestHoldings.displayName
+                  <Skeleton variant="circle" width={80} height={80} />
                 )}
-              </Typography>
-              </div>
+                <div>
+                  <Typography variant="h2">Highest Balance</Typography>
+                  <Typography variant="h1" className={classes.headAmount}>
+                    {highestHoldings === null ? (
+                      <Skeleton style={{ minWidth: '200px ' }} />
+                    ) : highestHoldings === 'None' ? (
+                      highestHoldings
+                    ) : (
+                      highestHoldings.displayName
+                    )}
+                  </Typography>
+                </div>
               </div>
             </Grid>
           </Grid>
@@ -511,7 +514,6 @@ function Invest({ changeTheme }) {
                     vertical: 'center',
                     horizontal: 'left',
                   }}
-                  anchorPosition={anchorEl}
                   anchorEl={anchorEl}
                   onClose={handlePopoverClose}
                   disableRestoreFocus
@@ -531,33 +533,7 @@ function Invest({ changeTheme }) {
                   <FilterListIcon />
                   <Typography variant="h5">Top Stablecoins APYs</Typography>
                 </ToggleButton>
-                <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-                  {topVaultPerformers.stableCoinVaults.length > 4 &&
-                    topVaultPerformers.stableCoinVaults.slice(0, 3).map((vault, i) => (
-                      <li>
-                        <span style={{ fontSize: '20px', marginRight: '12px' }}>
-                          {i === 0 ? '🥇' : null}
-                          {i === 1 ? '🥈' : null}
-                          {i === 2 ? '🥉' : null}
-                        </span>
-                        <span
-                          href={`/vaults/${vault.nonLowerCaseAddress}`}
-                          onClick={() => {
-                            handleNavigate(vault);
-                          }}
-                          className={classes.topVaultPerformersLink}
-                        >
-                          {vault.symbol.split(' Vault')[0]} {(vault.apy * 100).toFixed(2)}%{' '}
-                        </span>
-                        <HelpIcon
-                          style={{ cursor: 'pointer', width: 15 }}
-                          onClick={(event) => {
-                            handlePopoverOpen(event, vault, true);
-                          }}
-                        />
-                      </li>
-                    ))}
-                </ul>
+                <Podium vaults={topVaultPerformers.stableCoinVaults} isStableCoin={true} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
               </div>
             </div>
 
@@ -574,33 +550,8 @@ function Invest({ changeTheme }) {
                   <FilterListIcon />
                   <Typography variant="h5">Top BTC and ETH APYs</Typography>
                 </ToggleButton>
-                <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-                  {topVaultPerformers.ethBTCVaults.length > 4 &&
-                    topVaultPerformers.ethBTCVaults.slice(0, 3).map((vault, i) => (
-                      <li>
-                        <span style={{ fontSize: '20px', marginRight: '12px' }}>
-                          {i === 0 ? '🥇' : null}
-                          {i === 1 ? '🥈' : null}
-                          {i === 2 ? '🥉' : null}
-                        </span>
-                        <span
-                          href={`/vaults/${vault.nonLowerCaseAddress}`}
-                          onClick={() => {
-                            handleNavigate(vault);
-                          }}
-                          className={classes.topVaultPerformersLink}
-                        >
-                          {vault.symbol.split(' Vault')[0]} {(vault.apy * 100).toFixed(2)}%{' '}
-                        </span>
-                        <HelpIcon
-                          style={{ cursor: 'pointer', width: 15 }}
-                          onClick={(event) => {
-                            handlePopoverOpen(event, vault), false;
-                          }}
-                        />
-                      </li>
-                    ))}
-                </ul>
+                <Podium vaults={topVaultPerformers.ethBTCVaults} isStableCoin={false} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
+
               </div>
             </div>
 
@@ -619,33 +570,7 @@ function Invest({ changeTheme }) {
                   <Typography variant="h5">Other Top APYs</Typography>
                 </ToggleButton>
                 <Typography variant="h5">
-                  <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-                    {topVaultPerformers.otherVaults.length > 4 &&
-                      topVaultPerformers.otherVaults.slice(0, 3).map((vault, i) => (
-                        <li>
-                          <span style={{ fontSize: '20px', marginRight: '12px' }}>
-                            {i === 0 ? '🥇' : null}
-                            {i === 1 ? '🥈' : null}
-                            {i === 2 ? '🥉' : null}
-                          </span>
-                          <span
-                            href={`/vaults/${vault.nonLowerCaseAddress}`}
-                            onClick={() => {
-                              handleNavigate(vault);
-                            }}
-                            className={classes.topVaultPerformersLink}
-                          >
-                            {vault.symbol.split(' Vault')[0]} {(vault.apy * 100).toFixed(2)}%{' '}
-                          </span>
-                          <HelpIcon
-                            style={{ cursor: 'pointer', width: 15 }}
-                            onClick={(event) => {
-                              handlePopoverOpen(event, vault, false);
-                            }}
-                          />
-                        </li>
-                      ))}
-                  </ul>
+                  <Podium vaults={topVaultPerformers.otherVaults} isStableCoin={false} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
                 </Typography>
               </div>
             </div>
@@ -689,15 +614,5 @@ function Invest({ changeTheme }) {
     </Layout>
   );
 }
-
-/*
-
-<ToggleButtonGroup className={ classes.vaultTypeButtons } value={ coinTypes } onChange={ handeCoinTypesChanged } >
-  <ToggleButton className={ `${classes.vaultTypeButton} ${ coinTypes.includes('Stablecoins') ? classes.typeSelected : classes.type }` } value='Stablecoins' >Stable</ToggleButton>
-  <ToggleButton className={ `${classes.vaultTypeButton} ${ coinTypes.includes('BTC') ? classes.typeSelected : classes.type }` } value='BTC' >BTC</ToggleButton>
-  <ToggleButton className={ `${classes.vaultTypeButton} ${ coinTypes.includes('Eth') ? classes.typeSelected : classes.type }` } value='Eth' >ETH</ToggleButton>
-</ToggleButtonGroup>
-
-*/
 
 export default Invest;

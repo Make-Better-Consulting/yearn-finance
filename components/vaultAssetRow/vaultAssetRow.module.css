@@ -193,7 +193,7 @@
 .vaultV1VersionContainer {
   border-radius: 24px;
   padding: 5px 16px;
-  background: rgba(229, 107, 115, 1);
+  background: #BD1550;
   height: fit-content;
   width: fit-content;
   color: #FFF !important;
@@ -202,7 +202,7 @@
 .vaultV2VersionContainer {
   border-radius: 24px;
   padding: 5px 16px;
-  background: #1a2bbf;
+  background: #0048FF;
   height: fit-content;
   width: fit-content;
   color: #FFF !important;
@@ -211,7 +211,7 @@
 .vaultExpVersionContainer {
   border-radius: 24px;
   padding: 5px 16px;
-  background: rgba(255, 179, 71, 1);
+  background: #703D6F !important;
   height: fit-content;
   width: fit-content;
   color: #FFF !important;
@@ -220,10 +220,10 @@
 .vaultEarnVersionContainer {
   border-radius: 24px;
   padding: 5px 16px;
-  background: rgba(220, 107, 229, 1);
+  background: #77CCA4 !important;
+  color: #000 !important;
   height: fit-content;
   width: fit-content;
-  color: #FFF !important;
 }
 
 .vaultVersionText {
@@ -236,7 +236,7 @@
 .vaultLockupVersionContainer {
   border-radius: 24px;
   padding: 5px 16px;
-  background: rgba(244, 220, 10, 1);
+  background: #FFD000;
   color: #000 !important;
   height: fit-content;
   width: fit-content;

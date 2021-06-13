@@ -28,8 +28,9 @@ export default function Deposit({ vault }) {
   const [zapperSlippage, setZapperSlippage] = useState(0.01);
   const [depositStatus, setDepositStatus] = useState('');
   const storeAccount = stores.accountStore.getStore('account');
-  const [selectedZapBalanceToken, setSelectedZapBalanceToken] = useState();
-  const [account, setAccount] = useState(storeAccount);
+  const storeCurrentVault = stores.investStore.getVault(vault.address);
+  const [selectedZapBalanceToken, setSelectedZapBalanceToken] = useState(storeCurrentVault?.tokenMetadata);
+  const [account, /* setAccount */] = useState(storeAccount);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
@@ -37,7 +38,6 @@ export default function Deposit({ vault }) {
   const [zapperVaults, setZapperVaults] = useState([]);
   const [zapperBalanceTokens, setZapperBalanceTokens] = useState([]);
   const [currentToken, setCurrentToken] = useState();
-  const [hasVaultToken, setHasVaultToken] = useState(true);
   const [zapperBalanceUpdated, setZapperBalanceUpdated] = useState(false);
 
   const handleZapperSlippage = (event, slippage) => {
@@ -132,7 +132,7 @@ export default function Deposit({ vault }) {
       setDepositStatus(message);
     };
 
-    const vaultsUpdated = (vaults) => {
+    const vaultsUpdated = () => {
       if (vault?.address) {
         let currentVault = stores.investStore.getVault(vault.address);
         let zapperBalanceTokensTmp = zapperBalanceTokens;
@@ -191,7 +191,6 @@ export default function Deposit({ vault }) {
             token.balance = BigNumber(token.balanceRaw).div(10 ** token.decimals).toFixed(token.decimals)
 
             if (token?.address?.toLowerCase() === vault?.tokenMetadata?.address?.toLowerCase()) {
-              setHasVaultToken(true);
               tmpHasVaultToken = true;
             } else {
               tmpTokens.push(token);
@@ -202,7 +201,6 @@ export default function Deposit({ vault }) {
           }
           setZapperBalanceTokens(tmpTokens);
           if (!tmpHasVaultToken) {
-            setHasVaultToken(false);
             if (tmpTokens?.length > 0) {
               setCurrentToken(tmpTokens[0]);
               setSelectedZapBalanceToken(tmpTokens[0]);
@@ -221,22 +219,9 @@ export default function Deposit({ vault }) {
     }
   }, []);
 
-  useEffect(() => {
-    async function fetchTokensFromZapper() {
-      const response = await fetch('https://api.zapper.fi/v1/prices?api_key=96e0cc51-a62e-42ca-acee-910ea7d2a241');
-      if (response.status === 200) {
-        const zapperVaultsJSON = await response.json();
-      }
-    }
-    fetchTokensFromZapper();
-  }, []);
-
   let depositDisabled = false
   let depositDisabledMessage = null
-  if(vault.address === '0xa9fE4601811213c340e850ea305481afF02f5b28') {
-    depositDisabled = true
-    depositDisabledMessage = 'We have taken steps to increase the safety factor on our strategies that have LTV ratios that must be maintained. In the process of doing this, an accounting issue was uncovered with artifical losses reported that drove down the price of the yvWETH vault significantly. We are taking actions to resolve this accounting error and return the vault to normal. Please do not withdraw until the issue has been patched, as you currently will receive WETH at the artificially lowered share price of ~0.90.'
-  }
+
 
   return selectedZapBalanceToken?.address && zapperBalanceUpdated ? (
     <div className={classes.depositContainer}>
@@ -305,7 +290,7 @@ export default function Deposit({ vault }) {
               }}
               getOptionLabel={(option) => option.label}
               style={{ width: '55%', marginRight: '5px' }}
-              renderOption={(option, { selected }) => (
+              renderOption={(option) => (
                 <React.Fragment>
                   <img src={option.icon ? option.icon : `https://zapper.fi/images/${option.img}`} alt="" width={30} height={30} style={{ marginRight: '10px' }} />
                   <span className={classes.color} style={{ backgroundColor: option.color }} />
@@ -398,7 +383,7 @@ export default function Deposit({ vault }) {
         ) : null}
         <GasSpeed setParentSpeed={setSpeed} />
       </div>
-      {currentToken.address.toLowerCase() === vault.tokenMetadata.address.toLowerCase() ? null : (
+      {currentToken?.address.toLowerCase() === vault.tokenMetadata.address.toLowerCase() ? null : (
         <div className={classes.zapperSlippageContainer}>
           <Typography variant="h5" className={classes.title}>
             Slippage

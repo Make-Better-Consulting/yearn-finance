@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Typography, InputAdornment, Button, CircularProgress, Tooltip, FormGroup } from '@material-ui/core';
+import { TextField, Typography, InputAdornment, Button, CircularProgress, FormGroup } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -18,7 +18,7 @@ export default function Withdraw({ vault }) {
   const [zapperSlippage, setZapperSlippage] = useState(0.01);
   const storeAccount = stores.accountStore.getStore('account');
   const [withdrawalStatus, setWithdrawalStatus] = useState('');
-  const [account, setAccount] = useState(storeAccount);
+  const [account, /* setAccount */] = useState(storeAccount);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
@@ -114,10 +114,7 @@ export default function Withdraw({ vault }) {
 
   let depositDisabled = false
   let depositDisabledMessage = null
-  if(vault.address === '0xa9fE4601811213c340e850ea305481afF02f5b28') {
-    depositDisabled = true
-    depositDisabledMessage = 'We have taken steps to increase the safety factor on our strategies that have LTV ratios that must be maintained. In the process of doing this, an accounting issue was uncovered with artifical losses reported that drove down the price of the yvWETH vault significantly. We are taking actions to resolve this accounting error and return the vault to normal. Please do not withdraw until the issue has been patched, as you currently will receive WETH at the artificially lowered share price of ~0.90.'
-  }
+  
 
   return (
     <div className={classes.depositContainer}>
@@ -218,7 +215,7 @@ export default function Withdraw({ vault }) {
             }}
             getOptionLabel={(option) => option.label}
             fullWidth={true}
-            renderOption={(option, { selected }) => (
+            renderOption={(option) => (
               <React.Fragment>
                 <img src={option.img} alt="" width={30} height={30} style={{ marginRight: '10px' }} />
                 <span className={classes.color} style={{ backgroundColor: option.color }} />

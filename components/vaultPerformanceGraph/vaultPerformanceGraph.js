@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button, ButtonGroup } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import {
   ComposedChart,
-  Area,
   Line,
   CartesianGrid,
   XAxis,
@@ -12,8 +11,6 @@ import {
 } from "recharts";
 import * as moment from "moment";
 import BigNumber from "bignumber.js";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import AttachMoneyicon from "@material-ui/icons/AttachMoney";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { bnDec, formatCurrency } from "../../utils";
 import { useRouter } from "next/router";
@@ -26,7 +23,7 @@ import stores from "../../stores/index.js";
 
 import classes from "./vaultPerformanceGraph.module.css";
 
-function CustomTooltip({ payload, label, active }) {
+function CustomTooltip({ payload, active }) {
   if (active && payload && payload.length > 0) {
     return (
       <div className={classes.tooltipContainer}>
@@ -171,16 +168,16 @@ export default function VaultPerformanceGraph({ vault }) {
       {!vault || data.length === 0 ? (
         <Skeleton
           variant="rect"
-          width={window.innerWidth > 600 ? "100%" : window.innerWidth - 24}
+          width={window.innerWidth > 600 ? "100%" : window.innerWidth - 48}
           height={300}
         />
       ) : (
         <ResponsiveContainer
-          width={window.innerWidth > 600 ? "99%" : window.innerWidth - 24}
+          width={window.innerWidth > 600 ? "99%" : window.innerWidth - 48}
           height={300}
         >
           <ComposedChart
-            width={window.innerWidth > 600 ? 600 : window.innerWidth - 24}
+            width={window.innerWidth > 600 ? 600 : window.innerWidth - 48}
             height={350}
             data={data}
           >
@@ -195,7 +192,6 @@ export default function VaultPerformanceGraph({ vault }) {
               hide
               domain={[1, "dataMax"]}
             />{" "}
-            />
             <YAxis
               yAxisId="right"
               orientation="right"

@@ -1,4 +1,4 @@
-import { Typography, Paper } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import AccountBalanceWalletOutlinedIcon from "@material-ui/icons/AccountBalanceWalletOutlined";
@@ -11,10 +11,6 @@ import { formatCurrency } from "../../utils";
 import classes from "./vaultGrowthNumbers.module.css";
 
 export default function VaultGrowthNumbers({ vault }) {
-
-  if(vault.address === '0xa9fE4601811213c340e850ea305481afF02f5b28') {
-    vault.apy.recommended = null
-  }
 
   return (
     <div className={classes.extraContainer}>

@@ -2,14 +2,12 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/layout/layout.js';
-import { Typography, Paper, TextField, InputAdornment, Button } from '@material-ui/core';
+import { Typography, Paper } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import classes from './vault.module.css';
 
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-
-  import VaultActionCard from '../../../components/vaultActionCard';
+import VaultActionCard from '../../../components/vaultActionCard';
 import VaultGrowthNumbers from '../../../components/vaultGrowthNumbers';
 import VaultPerformanceGraph from '../../../components/vaultPerformanceGraph';
 import VaultTransactions from '../../../components/vaultTransactions';
@@ -28,8 +26,8 @@ import {
 } from '../../../stores/constants';
 
 function Vault(props) {
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
 
   const router = useRouter();
 

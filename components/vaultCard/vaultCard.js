@@ -39,13 +39,15 @@ export default function VaultCard({ vault, account }) {
       break;
   }
 
-  if(vault.address === '0xa9fE4601811213c340e850ea305481afF02f5b28') {
-    vault.apy.recommended = null
-  }
-
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Paper elevation={0} className={activeVault ? classes.vaultContainerActive : classes.vaultContainer} onClick={handleNavigate}>
+
+      {activeVault && (
+      <div className={classes.onlywhenactive}>
+      </div>
+      )}
+
         <div className={classes.vaultTitle}>
           <div className={classes.vaultLogo}>
             <img src={vault.icon ? vault.icon : '/tokens/unknown-logo.png'} alt="" width={50} height={50} />
@@ -78,6 +80,7 @@ export default function VaultCard({ vault, account }) {
           )}
           {!activeVault && account && account.address && (
             <div className={classes.vaultInfoField}>
+
               <Typography variant="h2" className={classes.fontWeightBold}>
                 {!(vault && vault.tokenMetadata && vault.tokenMetadata.balance) ? (
                   <Skeleton />

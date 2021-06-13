@@ -109,7 +109,7 @@
   padding-left: 70px;
   z-index: 9;
   top: 60px;
-  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
   /* border-bottom: 1px solid rgba(108,108,123, 0.2); */
   border-radius: 0px !important;
   margin-bottom: 60px;
@@ -131,7 +131,7 @@
 }
 
 .overviewCard h2 {
-  color: rgba(0,0,0, 0.5) !important;
+  color: rgba(255,255,255, 0.5) !important;
   margin-bottom: 6px;
   margin-top: 6px;
   padding: 0;
@@ -194,6 +194,10 @@
     top: 0px;
     margin-bottom: 0px;
   }
+
+  .lendingFilters {
+    top: 20px;
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -234,5 +238,11 @@
   }
   .lendActionsCell {
     display: none;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .lendingContainer {
+    padding: 20px;
   }
 }
