@@ -194,8 +194,6 @@
 }
 
 .activeSelected {
-  /* background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(47, 128, 237, 0.7) 48%) rgba(63, 94, 251, 0.7) 100% !important;
-  color: #fff !important; */
   background: none !important;
   padding: 12px 12px !important;
   border: 1px solid #374dfa !important;
@@ -487,9 +485,6 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
-}
-
 @media screen and (max-width: 1000px) {
 
   .overviewContainer {
@@ -561,13 +556,11 @@
   }
 
   .overviewText {
-    /* background: skyblue; */
     margin-left: 20px;
   }
 
   .overviewCard,
   .overviewCardLast {
-    /* background: red !important; */
     margin: 0;
     margin-right: 48px;
     padding: 0 0 25px 0;

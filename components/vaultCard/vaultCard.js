@@ -71,7 +71,7 @@ export default function VaultCard({ vault, account }) {
                 {!(vault && vault.balance) && <Skeleton />}
                 {vault && vault.balanceUSD && vault.type !== 'Lockup' && '$ ' + formatCurrency(vault.balanceUSD)}
               </Typography>
-              <Typography variant="h2" className={classes.xxx2}>
+              <Typography variant="h2" className={classes.balanceToken}>
                 {!(vault && vault.balance) && <Skeleton />}
                 {vault && vault.balanceInToken && formatCurrency(vault.balanceInToken) + ' ' + vault.displayName}
               </Typography>
