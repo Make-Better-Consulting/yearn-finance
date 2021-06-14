@@ -311,7 +311,7 @@ function Stats({ changeTheme }) {
 
       </Paper>
       <div className={classes.statsContainer}>
-        <div className={classes.statsFilters}>
+        <Paper className={classes.statsFilters}>
           <TextField
             className={classes.searchContainer}
             variant="outlined"
@@ -327,7 +327,7 @@ function Stats({ changeTheme }) {
               ),
             }}
           />
-        </div>
+        </Paper>
         <Grid item xs={12}>
           <Paper elevation={0} className={classes.tableContainer}>
             <TableContainer>

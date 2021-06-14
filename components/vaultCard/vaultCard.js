@@ -44,7 +44,7 @@ export default function VaultCard({ vault, account }) {
       <Paper elevation={0} className={activeVault ? classes.vaultContainerActive : classes.vaultContainer} onClick={handleNavigate}>
 
       {activeVault && (
-      <div className={classes.onlywhenactive}>
+      <div className={classes.ActiveBalance}>
       </div>
       )}
 
@@ -67,11 +67,11 @@ export default function VaultCard({ vault, account }) {
         <div className={classes.vaultInfo}>
           {activeVault && (
             <div className={classes.vaultInfoField}>
-              <Typography variant="h2" className={classes.fontWeightBold}>
+              <Typography variant="h2" className={classes.balanceUSD}>
                 {!(vault && vault.balance) && <Skeleton />}
                 {vault && vault.balanceUSD && vault.type !== 'Lockup' && '$ ' + formatCurrency(vault.balanceUSD)}
               </Typography>
-              <Typography variant="h2" className={classes.fontWeightBold}>
+              <Typography variant="h2" className={classes.xxx2}>
                 {!(vault && vault.balance) && <Skeleton />}
                 {vault && vault.balanceInToken && formatCurrency(vault.balanceInToken) + ' ' + vault.displayName}
               </Typography>
