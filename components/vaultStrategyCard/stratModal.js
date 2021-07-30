@@ -1,15 +1,14 @@
- import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Typography, Paper } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import classes from './vault.module.css';
+import classes from '../../pages/invest/[address]/vault.module.css';
 
-import VaultStrategyCard from '../../../components/vaultStrategyCard/vaultStrategyCardContent.js';
-import VaultStrategiesModal from '../../../components/vaultStrategyCard/strategiesModal.js';
+import VaultStrategyCard from './vaultStrategyCardContent.js';
 
-import stores from '../../../stores';
+import stores from '../../stores';
 import {
   VAULTS_UPDATED,
   GET_VAULT_PERFORMANCE,
@@ -18,7 +17,7 @@ import {
   VAULT_TRANSACTIONS_RETURNED,
   ACCOUNT_CHANGED,
   ETHERSCAN_URL,
-} from '../../../stores/constants';
+} from '../../stores/constants';
 
 function Vault(props) {
   const [, updateState] = useState();

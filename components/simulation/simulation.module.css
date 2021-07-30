@@ -1,9 +1,14 @@
 .simulationContainer {
   margin-bottom: 20px;
-  margin-top: -20px;
-  background: rgba(108,108,123, 0.1) !important;
-  border: 1px solid rgba(108,108,123, 0.1) !important;
+  margin-top: 20px;
+  background: rgba(108,108,123, 1) !important;
+  border: 10px solid rgba(108,108,123, 0.1) !important;
   box-shadow: none !important;
+  position: fixed;
+  bottom: 20px;
+  color: #FFF !important;
+  right: 40px;
+  z-index: 2;
 }
 
 .simulationCard {

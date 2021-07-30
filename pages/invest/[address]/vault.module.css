@@ -1,6 +1,6 @@
 .vaultContainer {
   height: 100%;
-  padding: 0px 48px;
+  padding: 0px 60px;
   display: flex;
   flex-direction: column;
   margin-top: 110px;
@@ -15,15 +15,15 @@
   margin-bottom: 20px !important;
 }
 
-.muted {
-  color: #4aa166;
-  float: left;
+.allStrats {
+  float: right;
+  margin-right: 20px;
   margin-bottom: 20px;
 }
 
-.muted2 {
-  opacity: 0.5;
-  float: left;
+.activeStrats {
+  color: #4aa166;
+  float: right;
   margin-right: 10px;
   margin-bottom: 20px;
 }
@@ -35,6 +35,13 @@
   border-radius: 10px;
   position: relative;
   min-height: 150px;
+  overflow: hidden;
+  background-image: url('../../../public/images/vaultBGlines.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* display: grid;
+  grid-template-columns: 480px 1fr 10fr 1fr 10fr 1fr 10fr; */
 }
 
 .stratModalBtn {
@@ -77,6 +84,7 @@
 .vaultInfo {
   display: flex;
   margin-top: 40px;
+  min-height: calc(100vh - 360px);
 }
 
 .vaultTitle {
@@ -106,6 +114,7 @@
 .vaultTransactionsContainer {
   width: 100%;
   margin-top: 48px;
+  display: none;
 }
 
 .cardSeparation {
@@ -178,7 +187,7 @@
 .borderedSection {
   border: 1px solid rgba(108,108,123, 0.25);
   border-radius: 10px;
-  padding: 30px;
+  padding: 0px;
   padding-bottom: 10px;
   flex: 1;
 }
@@ -188,7 +197,6 @@
   padding-bottom: 18px;
   border: 1px solid rgba(108,108,123, 0.25);
   border-radius: 10px;
-
   display: grid;
   grid-template-columns: 260px 1fr 10fr 1fr 10fr 1fr 10fr;
 }

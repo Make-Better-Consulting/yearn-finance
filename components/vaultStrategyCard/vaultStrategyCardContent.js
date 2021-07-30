@@ -110,7 +110,7 @@ export default function vaultStrategyCard({ strategy, vault }) {
             {mapStrategyToDescription(strategy.name, vault.tokenMetadata.displayName)}
           </Typography>
           </div>
-          <div className={classes.stratScan} onClick={onStrategyClicked}>View on Etherscan</div>
+          <Tooltip placement="right-start" arrow="true" title="View on Etherscan"><div className={classes.viewEtherscan} onClick={onStrategyClicked}>&nbsp;</div></Tooltip>
         </AccordionDetails>
       </Accordion>
     </div>

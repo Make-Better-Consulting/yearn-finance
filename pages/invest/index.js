@@ -399,7 +399,6 @@ function Invest({ changeTheme }) {
                 {porfolioBalance !== null ? (
                   <div className={classes.portfolioOutline}>
                     <Lottie className={classes.growthanimclass} animationData={growthanim} />
-
                   </div>
                 ) : (
                   <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />
@@ -420,7 +419,6 @@ function Invest({ changeTheme }) {
               <div className={classes.overviewCardLast}>
                 {porfolioBalance !== null ? (
                   <div className={classes.portfolioOutline}>
-                    {' '}
                     <Lottie className={classes.rocketanimclass} animationData={rocket} />
                   </div>
                 ) : (
@@ -470,7 +468,7 @@ function Invest({ changeTheme }) {
             className={classes.searchContainer}
             variant="outlined"
             fullWidth
-            placeholder="ETH, CRV, ..."
+            placeholder="Search Vaults: ETH, CRV, ..."
             value={search}
             onChange={onSearchChanged}
             InputProps={{

@@ -146,8 +146,10 @@ function Vault(props) {
 
           <div className={classes.stratModalBtn}>
           <Typography variant='h5' className={classes.summary}>
-          <div className={classes.muted2}>Strategies: ({ vault.strategies.length })</div><div className={classes.muted}>Active: ({ vault.strategies.filter((strat) => { return BigNumber(strat.balanceUSD).gt(100) }).length })</div>
+          <div className={classes.activeStrats}>Active: ({ vault.strategies.filter((strat) => { return BigNumber(strat.balanceUSD).gt(100) }).length })</div>
+          <div className={classes.allStrats}>Strategies: ({ vault.strategies.length })</div>
           </Typography>
+
           <VaultStrategiesModal />
 
           </div>

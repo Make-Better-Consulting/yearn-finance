@@ -11,7 +11,7 @@ import { formatCurrency } from "../../utils";
 
 import BigNumber from "bignumber.js";
 
-import classes from "./vaultSplitGraph.module.css";
+import classes from "./dashboardSplitGraph.module.css";
 
 function CustomTooltip({ payload, active }) {
   if (active && payload && payload.length > 0) {
@@ -66,15 +66,15 @@ export default function VaultSplitGraph({ vaults }) {
 
   return (
     <div className={classes.vaultPerformanceGraph}>
-      <ResponsiveContainer width={60} height={60}>
-        <PieChart width={60} height={60}>
+      <ResponsiveContainer width={100} height={130}>
+        <PieChart width={100} height={100}>
           <Pie
             activeIndex={activeIndex}
             data={data}
-            cx={25}
-            cy={25}
-            innerRadius={15}
-            outerRadius={30}
+            cx={45}
+            cy={45}
+            innerRadius={30}
+            outerRadius={50}
             fill="#FF0000"
             stroke="none"
             dataKey="value"

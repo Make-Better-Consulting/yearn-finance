@@ -1,10 +1,11 @@
 .vaultActionContainer {
   width: 520px;
+  /* min-height: 100%; */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 24px;
-  margin-right: 48px;
+  margin-right: 40px;
   border: 1px solid rgba(108,108,123, 0.2);
 }
 
@@ -46,6 +47,37 @@
 
 .disabledIcon {
   margin-right: 12px;
+}
+
+.gainedTitleContainer {
+  width: 100%;
+  height: 50px;
+  /* padding: 10px;
+  padding-top: 1px; */
+  position: relative;
+  background: none;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(104,108,122,0.3);
+}
+
+.gainedTxt {
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute;
+  top: 17px;
+  left: 56px;
+}
+
+.vaultLogo {
+  position: absolute;
+  left: 13px;
+  top: 10px;
+}
+
+.vaultLogo img {
+  width: 28px;
+  height: 28px;
 }
 
 .inputTitleContainer {

@@ -1,7 +1,8 @@
 .noticeContainer {
   display: flex;
   align-items: flex-start;
-  max-width: 600px;
+  max-width: 100%;
+  padding: 0 30px;
 }
 
 .textContainer {
@@ -22,7 +23,15 @@
 }
 
 .paragraph {
+  font-size: 14px !important;
   margin-bottom: 12px !important;
+}
+
+.paragraphWarning {
+  border: 1px dashed red;
+  padding: 10px;
+  margin: 22px 0 !important;
+  border-radius: 10px;
 }
 
 .vaultInfoField {

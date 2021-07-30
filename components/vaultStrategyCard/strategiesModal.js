@@ -2,9 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 
-import VaultStrategyCard from '../../pages/invest/[address]/testModal.js';
-
-
+import VaultStrategyCard from './stratModal.js';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,17 +16,19 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
     marginLeft: '-300px',
     borderRadius: '10px',
+    maxHeight: '660px',
+    overflow: 'scroll',
   },
   strategiesBtn: {
     border: '1px solid rgba(104,108,122,0.3)',
-    background: 'none',
-    width: '220px',
-    color: '#FFF',
-    padding: '15px 0',
+    background: theme.palette.background.paper,
+    width: '230px',
+    color: 'rgba(104,108,122,1)',
+    padding: '13px 0',
     cursor: 'pointer',
     fontSize: '16px',
     fontWeight: '700',
-    borderRadius: '5px',
+    borderRadius: '100px',
   },
 }));
 

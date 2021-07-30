@@ -10,7 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import classes from './dashboard.module.css';
 import VaultAssetRow from '../../components/vaultAssetRow';
 import VaultCard from '../../components/vaultCard';
-import VaultSplitGraph from '../../components/vaultSplitGraph';
+import DashboardSplitGraph from '../../components/dashboardSplitGraph';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 import BigNumber from 'bignumber.js';
@@ -35,6 +35,8 @@ import DashboardCharts from '../../components/dashboardCharts';
 import DashboardEarnings from '../../components/dashboardEarnings/dashboardEarnings.js';
 
 import Lottie from "lottie-react";
+import coin from "../../public/lottiefiles/coinneutral.json";
+import growthanim from "../../public/lottiefiles/rocket4.json";
 import noInvestmentsAnim from "../../public/lottiefiles/lottie-placeholder.json";
 
 import { formatCurrency } from '../../utils';
@@ -398,7 +400,7 @@ function Dashboard({ changeTheme }) {
               className={classes.searchContainer}
               variant="outlined"
               fullWidth
-              placeholder="ETH, CRV, ..."
+              placeholder="Search Vaults: ETH, CRV, ..."
               value={search}
               onChange={onSearchChanged}
               InputProps={{
@@ -422,90 +424,114 @@ function Dashboard({ changeTheme }) {
 
         <div className={classes.OverviewContainer}>
 
-
-          <Grid lg={12} md={12} xs={12} sm={12} container spacing={0}>
-
           <Grid lg={6} md={12} xs={12} sm={12} container spacing={0}>
-            <Grid item lg={6} md={6} xs={12} sm={12}>
-              <Paper elevation={0} className={classes.overviewCard}>
-                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
-                  <InfoOutlinedIcon className={classes.infoIcon} />
-                </Tooltip>
 
-                <div className={classes.overviewText}>
-                  <Typography className={classes.overviewTitle} variant="h2">Total Investment Value</Typography>
-                  <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
-                    {porfolioBalance === null ? <Skeleton style={{ minWidth: '200px ' }} /> : '$ ' + formatCurrency(porfolioBalance)}
-                  </Typography>
-                </div>
-              </Paper>
+            <Typography className={classes.AssetsTitleMain} variant="h2">Investments Overview</Typography>
+
+            <Grid lg={12} md={12} xs={12} sm={12} container spacing={0}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+            <Paper elevation={0} className={classes.overviewCard}>
+            <Tooltip arrow={true} placement="top-start" title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+              <InfoOutlinedIcon className={classes.infoIcon} />
+            </Tooltip>
+
+            <div className={classes.portfolioOutline}>
+              <Lottie className={classes.rocketanimclass} animationData={coin} />
+            </div>
+
+            <div className={classes.overviewText}>
+
+              <Typography className={classes.overviewTitle} variant="h2">Total Investment Value</Typography>
+              <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
+                {porfolioBalance === null ? <Skeleton style={{ minWidth: '200px ' }} /> : '$ ' + formatCurrency(porfolioBalance)}
+              </Typography>
+            </div>
+            </Paper>
+            </Grid>
+
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+            <Paper elevation={0} className={classes.overviewCard}>
+            <Tooltip arrow={true} placement="top-end" title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+              <InfoOutlinedIcon className={classes.infoIcon} />
+            </Tooltip>
+            <div className={classes.portfolioOutline}>
+              <Lottie className={classes.growthanimclass} animationData={growthanim} />
+            </div>
+            <div className={classes.overviewText}>
+              <Typography className={classes.overviewTitle} variant="h2">Total Earnings</Typography>
+              <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
+                + {porfolioBalance === null ? (
+                  <Skeleton style={{ minWidth: '200px ' }} />
+                ) : (
+                  '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
+                )}
+              </Typography>
+              <Typography className={classes.overviewPercentage} variant="h2">20.65% (APY)</Typography>
+            </div>
+            </Paper>
             </Grid>
             <Grid item lg={6} md={6} xs={12} sm={12}>
-              <Paper elevation={0} className={classes.overviewCard}>
-                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
-                  <InfoOutlinedIcon className={classes.infoIcon} />
-                </Tooltip>
-                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />}
-                <div className={classes.overviewText}>
-                  <Typography variant="h2">Highest Balance</Typography>
-                  <Typography variant="h1" className={classes.headAmount}>
-                    {highestHoldings === null ? (
-                      <Skeleton style={{ minWidth: '200px ' }} />
-                    ) : highestHoldings === 'None' ? (
-                      highestHoldings
-                    ) : (
-                      highestHoldings.displayName
-                    )}
-                  </Typography>
-                </div>
-              </Paper>
+            <Paper elevation={0} className={classes.overviewCard}>
+            <Tooltip arrow={true} placement="top-start" title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+              <InfoOutlinedIcon className={classes.infoIcon} />
+            </Tooltip>
+
+            <div className={classes.overviewText}>
+              <Typography variant="h2">Asset Allocation</Typography>
+              <Typography variant="h1" className={classes.allocationAmount}>
+                {highestHoldings === null ? (
+                  <Skeleton style={{ minWidth: '200px ' }} />
+                ) : highestHoldings === 'None' ? (
+                  highestHoldings
+                ) : (
+                  highestHoldings.displayName
+                )}
+              </Typography>
+              <Typography variant="h1" className={classes.allocationAmount}>
+                crvUSDN
+              </Typography>
+              <Typography variant="h1" className={classes.allocationAmount}>
+                crvLUSD
+              </Typography>
+              <Typography variant="h1" className={classes.allocationAmount}>
+                crvFRAX
+              </Typography>
+            </div>
+            {porfolioBalance !== null ? <DashboardSplitGraph vaults={vaults} /> : <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />}
+            </Paper>
             </Grid>
             <Grid item lg={6} md={6} xs={12} sm={12}>
-              <Paper elevation={0} className={classes.overviewCard}>
-                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
-                  <InfoOutlinedIcon className={classes.infoIcon} />
-                </Tooltip>
-                <div className={classes.overviewText}>
-                  <Typography className={classes.overviewTitle} variant="h2">Total Earnings</Typography>
-                  <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
-                    {porfolioBalance === null ? (
-                      <Skeleton style={{ minWidth: '200px ' }} />
-                    ) : (
-                      '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
-                    )}
-                  </Typography>
-                </div>
-              </Paper>
+            <Paper elevation={0} className={classes.overviewCard}>
+            <Tooltip arrow={true} placement="top-end" title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+              <InfoOutlinedIcon className={classes.infoIcon} />
+            </Tooltip>
+            <DashboardEarnings />
+            </Paper>
             </Grid>
-            <Grid item lg={6} md={6} xs={12} sm={12}>
-              <Paper elevation={0} className={classes.overviewCard}>
-                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
-                  <InfoOutlinedIcon className={classes.infoIcon} />
-                </Tooltip>
-                <DashboardEarnings />
-              </Paper>
             </Grid>
           </Grid>
 
+
           <Grid lg={6} md={12} xs={12} sm={12} container spacing={0}>
-            <Grid item lg={12} md={12} xs={12} sm={12}>
-              <Paper elevation={0} className={classes.overviewCardFull}>
-                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+
+            <Typography className={classes.AssetsTitleMain} variant="h2">Portfolio Performance</Typography>
+
+            <Grid lg={12} md={12} xs={12} sm={12} container spacing={0}>
+              <Grid item lg={12} md={12} xs={12} sm={12}>
+                <Paper elevation={0} className={classes.overviewCardFull}>
+                  <Tooltip arrow={true} placement="top-end" title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
                   <InfoOutlinedIcon className={classes.infoIcon} />
-                </Tooltip>
-                <Grid xs={12} container spacing={0}>
-                  <Grid item lg={12} md={12} xs={12} sm={12}>
-                    <Typography className={classes.AssetsTitleMain} variant="h2">Portfolio Performance</Typography>
-                  </Grid>
-                  <Grid item lg={12} md={12} xs={12} sm={12}>
+                  </Tooltip>
+                  <Grid xs={12} container spacing={0}>
+                    <Grid item lg={12} md={12} xs={12} sm={12}>
                     <DashboardCharts />
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-            </Grid>
+                </Paper>
+              </Grid>
             </Grid>
 
+          </Grid>
         </div>
 
         <div className={classes.myInvestmentsContainer}>
@@ -513,8 +539,6 @@ function Dashboard({ changeTheme }) {
           <div className={classes.vaultsContainer}>
 
             <Typography className={classes.AssetsTitleMain} variant="h2">My Investment Portfolio</Typography>
-
-
 
             <Grid container spacing={3}>
               {layout === 'grid' &&
