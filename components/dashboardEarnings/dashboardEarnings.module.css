@@ -1,0 +1,31 @@
+.tabContent {
+  margin-left: 10%;
+  background: none;
+  width: 80%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.tabContent h6 {
+  margin-bottom: 10px !important;
+  color: rgba(108,108,123, 0.9) !important;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.tabContent h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+  font-weight: 700 !important;
+}
+
+.tabContent h5 {
+  margin-top: 10px !important;
+  color: rgba(108,108,123, 0.9) !important;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.tab {
+  border: 10px solid red !important;
+  padding: 0 !important;
+}

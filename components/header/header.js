@@ -9,6 +9,7 @@ import InputBase from '@material-ui/core/InputBase';
 import WbSunnyOutlinedIcon from '@material-ui/icons/WbSunnyOutlined';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { CONNECT_WALLET, ACCOUNT_CONFIGURED, ACCOUNT_CHANGED } from '../../stores/constants';
 
@@ -21,6 +22,8 @@ import classes from './header.module.css';
 import HelpIcon from '@material-ui/icons/Help';
 import AboutModal from './aboutModal';
 import SearchModal from './searchModal';
+import MoreMenu from './moreMenu';
+
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const StyledSwitch = withStyles((theme) => ({
@@ -199,6 +202,8 @@ function Header(props) {
         {unlockOpen && <Unlock modalOpen={unlockOpen} closeModal={closeUnlock} />}
         {toggleAboutModal && <AboutModal setToggleAboutModal={setToggleAboutModal} />}
         {toggleSearchModal && <SearchModal setToggleSearchModal={setToggleSearchModal} />}
+
+        <MoreMenu />
 
 
     </Paper>

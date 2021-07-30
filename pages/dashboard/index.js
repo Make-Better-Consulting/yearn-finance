@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 
 import Head from 'next/head';
 import Layout from '../../components/layout/layout.js';
-import { Typography, Paper, TextField, InputAdornment, Grid } from '@material-ui/core';
+import { Typography, Paper, TextField, InputAdornment, Grid, Button, Tooltip } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Skeleton from '@material-ui/lab/Skeleton';
-import classes from './invest.module.css';
+import classes from './dashboard.module.css';
 import VaultAssetRow from '../../components/vaultAssetRow';
 import VaultCard from '../../components/vaultCard';
 import VaultSplitGraph from '../../components/vaultSplitGraph';
@@ -20,6 +20,9 @@ import HelpIcon from '@material-ui/icons/Help';
 import SearchIcon from '@material-ui/icons/Search';
 import AppsIcon from '@material-ui/icons/Apps';
 import ListIcon from '@material-ui/icons/List';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,15 +31,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
+import DashboardCharts from '../../components/dashboardCharts';
+import DashboardEarnings from '../../components/dashboardEarnings/dashboardEarnings.js';
+
+import Lottie from "lottie-react";
+import noInvestmentsAnim from "../../public/lottiefiles/lottie-placeholder.json";
+
 import { formatCurrency } from '../../utils';
 
 import stores from '../../stores/index.js';
 import { VAULTS_UPDATED } from '../../stores/constants';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Lottie from "lottie-react";
-import growthanim from "../../public/lottiefiles/rocket4.json";
-import rocket from "../../public/lottiefiles/coinneutral.json";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -71,7 +76,7 @@ const Podium = ({ vaults, isStableCoin, handlePopoverOpen, handleNavigate }) => 
   </ul>
 );
 
-function Invest({ changeTheme }) {
+function Dashboard({ changeTheme }) {
   const localClasses = useStyles();
   const router = useRouter();
 
@@ -376,56 +381,71 @@ function Invest({ changeTheme }) {
   return (
     <Layout changeTheme={changeTheme}>
       <Head>
-        <title>Invest</title>
+        <title>Dashboard</title>
       </Head>
 
       {account && account.address && highestHoldings !== 'None' && (
 
-        <Paper elevation={0} className={classes.overviewContainer2}>
-          <Grid container spacing={3}>
-            <Grid item lg={4} md={4} xs={12} sm={12}>
-              <div className={classes.overviewCard}>
-                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />}
+        <div>
+
+        <Paper className={classes.vaultFiltersTop}>
+          <div className={classes.vaultFiltersInside}>
+          <Typography className={classes.dashboardTitle} variant="h2">My Dashboard</Typography>
+            <Button className={classes.dashboardBtn} variant="outlined">Investments</Button>
+            <Button className={classes.dashboardBtnDisabled} variant="outlined" disabled>Loans</Button>
+            <Button className={classes.dashboardBtnDisabled} variant="outlined" disabled>Collateral</Button>
+            <TextField
+              className={classes.searchContainer}
+              variant="outlined"
+              fullWidth
+              placeholder="ETH, CRV, ..."
+              value={search}
+              onChange={onSearchChanged}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <ToggleButtonGroup className={classes.layoutToggleButtons} value={layout} onChange={handleLayoutChanged} exclusive>
+              <ToggleButton className={classes.layoutToggleButton} value={'grid'}>
+                <AppsIcon />
+              </ToggleButton>
+              <ToggleButton className={classes.layoutToggleButton} value={'list'}>
+                <ListIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </Paper>
+
+        <div className={classes.OverviewContainer}>
+
+
+          <Grid lg={12} md={12} xs={12} sm={12} container spacing={0}>
+
+          <Grid lg={6} md={12} xs={12} sm={12} container spacing={0}>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Paper elevation={0} className={classes.overviewCard}>
+                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+                  <InfoOutlinedIcon className={classes.infoIcon} />
+                </Tooltip>
+
                 <div className={classes.overviewText}>
-                  <Typography variant="h2">Portfolio Balance</Typography>
-                  <Typography variant="h1" className={classes.headAmount}>
+                  <Typography className={classes.overviewTitle} variant="h2">Total Investment Value</Typography>
+                  <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
                     {porfolioBalance === null ? <Skeleton style={{ minWidth: '200px ' }} /> : '$ ' + formatCurrency(porfolioBalance)}
                   </Typography>
                 </div>
-              </div>
+              </Paper>
             </Grid>
-            <Grid item lg={4} md={4} xs={12} sm={12}>
-              <div className={classes.overviewCard}>
-                {porfolioBalance !== null ? (
-                  <div className={classes.portfolioOutline}>
-                    <Lottie className={classes.growthanimclass} animationData={growthanim} />
-
-                  </div>
-                ) : (
-                  <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />
-                )}
-                <div className={classes.overviewText}>
-                  <Typography variant="h2">Yearly Growth</Typography>
-                  <Typography variant="h1" className={classes.headAmount}>
-                    {porfolioBalance === null ? (
-                      <Skeleton style={{ minWidth: '200px ' }} />
-                    ) : (
-                      '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
-                    )}
-                  </Typography>
-                </div>
-              </div>
-            </Grid>
-            <Grid item lg={4} md={4} xs={12} sm={12}>
-              <div className={classes.overviewCardLast}>
-                {porfolioBalance !== null ? (
-                  <div className={classes.portfolioOutline}>
-                    {' '}
-                    <Lottie className={classes.rocketanimclass} animationData={rocket} />
-                  </div>
-                ) : (
-                  <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />
-                )}
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Paper elevation={0} className={classes.overviewCard}>
+                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+                  <InfoOutlinedIcon className={classes.infoIcon} />
+                </Tooltip>
+                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />}
                 <div className={classes.overviewText}>
                   <Typography variant="h2">Highest Balance</Typography>
                   <Typography variant="h1" className={classes.headAmount}>
@@ -438,11 +458,100 @@ function Invest({ changeTheme }) {
                     )}
                   </Typography>
                 </div>
-              </div>
+              </Paper>
+            </Grid>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Paper elevation={0} className={classes.overviewCard}>
+                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+                  <InfoOutlinedIcon className={classes.infoIcon} />
+                </Tooltip>
+                <div className={classes.overviewText}>
+                  <Typography className={classes.overviewTitle} variant="h2">Total Earnings</Typography>
+                  <Typography className={classes.overviewValue} variant="h1" className={classes.headAmount}>
+                    {porfolioBalance === null ? (
+                      <Skeleton style={{ minWidth: '200px ' }} />
+                    ) : (
+                      '$ ' + formatCurrency(BigNumber(porfolioBalance).times(portfolioGrowth).div(100))
+                    )}
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item lg={6} md={6} xs={12} sm={12}>
+              <Paper elevation={0} className={classes.overviewCard}>
+                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+                  <InfoOutlinedIcon className={classes.infoIcon} />
+                </Tooltip>
+                <DashboardEarnings />
+              </Paper>
             </Grid>
           </Grid>
-        </Paper>
+
+          <Grid lg={6} md={12} xs={12} sm={12} container spacing={0}>
+            <Grid item lg={12} md={12} xs={12} sm={12}>
+              <Paper elevation={0} className={classes.overviewCardFull}>
+                <Tooltip arrow={true} title="Lorem ipsum dolor sit amet consectuer dolor sit amet.">
+                  <InfoOutlinedIcon className={classes.infoIcon} />
+                </Tooltip>
+                <Grid xs={12} container spacing={0}>
+                  <Grid item lg={12} md={12} xs={12} sm={12}>
+                    <Typography className={classes.AssetsTitleMain} variant="h2">Portfolio Performance</Typography>
+                  </Grid>
+                  <Grid item lg={12} md={12} xs={12} sm={12}>
+                    <DashboardCharts />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+            </Grid>
+            </Grid>
+
+        </div>
+
+        <div className={classes.myInvestmentsContainer}>
+
+          <div className={classes.vaultsContainer}>
+
+            <Typography className={classes.AssetsTitleMain} variant="h2">My Investment Portfolio</Typography>
+
+
+
+            <Grid container spacing={3}>
+              {layout === 'grid' &&
+                filteredVaults &&
+                filteredVaults.length > 0 &&
+                filteredVaults.map((vault, index) => {
+                  return <VaultCard key={index} vault={vault} account={account} />;
+                })}
+              {layout === 'list' && (
+                <Grid item xs={12}>
+                  <Paper elevation={0} className={classes.tableContainer}>
+                    <TableContainer>
+                      <Table className={classes.investTable} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
+                        {renderVaultHeaders({
+                          order: order,
+                          orderBy: orderBy,
+                          onRequestSort: handleRequestSort,
+                        })}
+                        <TableBody>
+                          {filteredVaults &&
+                            filteredVaults.length > 0 &&
+                            filteredVaults.map((vault, index) => {
+                              return <VaultAssetRow key={index} vault={vault} account={account} />;
+                            })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Paper>
+                </Grid>
+              )}
+            </Grid>
+          </div>
+        </div>
+
+        </div>
       )}
+
 
       <Paper className={classes.vaultFilters}>
         <div className={classes.vaultFiltersInside}>
@@ -488,126 +597,34 @@ function Invest({ changeTheme }) {
             <ToggleButton className={classes.layoutToggleButton} value={'list'}>
               <ListIcon />
             </ToggleButton>
-          </ToggleButtonGroup>
+          </ToggleButtonGroup >
         </div>
       </Paper>
 
-      <div className={classes.investContainer}>
 
-        <div className={classes.overviewTopPerformersContainer}>
-          <Paper elevation={0} className={classes.overviewContainer}>
-            <div className={classes.overviewCard}>
-
-              <div>
-                <Popover
-                  open={open}
-                  anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'center',
-                    horizontal: 'left',
-                  }}
-                  anchorEl={anchorEl}
-                  onClose={handlePopoverClose}
-                  disableRestoreFocus
-                >
-                  <Typography className={localClasses.popover}>{investPopoverText}</Typography>
-                </Popover>
-                <ToggleButton
-                  className={`${classes.vaultTypeButton} ${search === '_stablecoins_' ? classes.stableCoinsSelected : classes.stableCoins}`}
-                  value="Lockup"
-                  onClick={() => {
-                    setSearch(search === '_stablecoins_' ? '' : '_stablecoins_');
-                    setOrderBy({ id: 'apy' });
-                    setOrder('desc');
-                  }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <FilterListIcon className={classes.filtericon} />
-                  <Typography variant="h5">Top Stablecoins APYs</Typography>
-                </ToggleButton>
-                <Podium vaults={topVaultPerformers.stableCoinVaults} isStableCoin={true} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
-              </div>
-            </div>
-
-            <div className={classes.overviewCard}>
-              <div>
-                <ToggleButton
-                  onClick={() => {
-                    setSearch(search === '_ethbtc_' ? '' : '_ethbtc_');
-                  }}
-                  style={{ cursor: 'pointer' }}
-                  className={`${classes.vaultTypeButton} ${search === '_ethbtc_' ? classes.ethBTCSelected : classes.ethbtc}`}
-                  value="Lockup"
-                >
-                  <FilterListIcon className={classes.filtericon} />
-                  <Typography variant="h5">Top BTC and ETH APYs</Typography>
-                </ToggleButton>
-                <Podium vaults={topVaultPerformers.ethBTCVaults} isStableCoin={false} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
-
-              </div>
-            </div>
-
-            <div className={classes.overviewCard}>
-
-              <div>
-                <ToggleButton
-                  onClick={() => {
-                    setSearch(search === '_others_' ? '' : '_others_');
-                  }}
-                  style={{ cursor: 'pointer' }}
-                  className={`${classes.vaultTypeButton} ${search === '_others_' ? classes.othersSelected : classes.others}`}
-                  value="Lockup"
-                >
-                  <FilterListIcon className={classes.filtericon} />
-                  <Typography variant="h5">Other Top APYs</Typography>
-                </ToggleButton>
-                <Typography variant="h5">
-                  <Podium vaults={topVaultPerformers.otherVaults} isStableCoin={false} handlePopoverOpen={handlePopoverOpen} handleNavigate={handleNavigate} />
-                </Typography>
-              </div>
-            </div>
-          </Paper>
-        </div>
-
-        <div className={classes.vaultsContainer}>
-
-          <Grid container spacing={3}>
-            {layout === 'grid' &&
-              filteredVaults &&
-              filteredVaults.length > 0 &&
-              filteredVaults.map((vault, index) => {
-                return <VaultCard key={index} vault={vault} account={account} />;
-              })}
-            {layout === 'list' && (
-              <Grid item xs={12}>
-                <Paper elevation={0} className={classes.tableContainer}>
-                  <TableContainer>
-                    <Table className={classes.investTable} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
-                      {renderVaultHeaders({
-                        order: order,
-                        orderBy: orderBy,
-                        onRequestSort: handleRequestSort,
-                      })}
-                      <TableBody>
-                        {filteredVaults &&
-                          filteredVaults.length > 0 &&
-                          filteredVaults.map((vault, index) => {
-                            return <VaultAssetRow key={index} vault={vault} account={account} />;
-                          })}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Paper>
-              </Grid>
-            )}
+      <Paper elevation="0" className={classes.noInvestments}>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Lottie className={classes.animClass} animationData={noInvestmentsAnim} />
           </Grid>
-        </div>
-      </div>
+          <Grid item xs={12}>
+            <Typography className={classes.noneText} variant="h2">You Have No Investments</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography className={classes.noneSubText} variant="body2">
+            Put any crypto you want into any of our investment vaults.
+We automatically swap, trade, transfer and manage the end to end process in a fully transparent operation, using strategies at scale to reap collectively greater and more reliable earnings fairly, one more logical reason to grow your crypto with us.
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button href="/invest/" variant="outlined" className={classes.browseBtn}>Browse Vaults</Button>
+          </Grid>
+        </Grid>
+      </Paper>
+
+
     </Layout>
   );
 }
 
-export default Invest;
+export default Dashboard;

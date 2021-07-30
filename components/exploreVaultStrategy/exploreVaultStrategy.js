@@ -128,7 +128,7 @@ export default function exploreVaultStrategy({ strategy }) {
           </div>
         </div>
         <div>
-          <Tooltip title="View on Etherscan" placement="bottom">
+          <Tooltip arrow={true} title="View on Etherscan" placement="bottom">
           <Typography variant='h2' onClick={ openContract } className={ classes.strategyTitle}>
             { strategy ? strategy.name : "Where is your name?"} <span className={classes.strategyAddress}>({ formatAddress(strategy.address) })</span>
           </Typography>

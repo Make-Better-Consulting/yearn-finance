@@ -32,6 +32,10 @@ export default function VaultGrowthNumbers({ vault }) {
                 vault.tokenMetadata.displayName
               )}
             </Typography>
+            <Typography variant="h2" className={classes.balanceUSD}>
+              {!(vault && vault.balance) && <Skeleton />}
+              {vault && vault.balanceUSD && vault.type !== 'Lockup' && '$ ' + formatCurrency(vault.balanceUSD)}
+            </Typography>
           </div>
         </div>
         {vault.type !== "Lockup" && (

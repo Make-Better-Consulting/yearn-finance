@@ -7,6 +7,42 @@
   padding-bottom: 48px;
 }
 
+.hideMe {
+  display: none;
+}
+
+.summary {
+  margin-bottom: 20px !important;
+}
+
+.muted {
+  color: #4aa166;
+  float: left;
+  margin-bottom: 20px;
+}
+
+.muted2 {
+  opacity: 0.5;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.overviewContainer2 {
+  padding: 32px 48px;
+  padding-bottom: 18px;
+  border: 1px solid rgba(108,108,123, 0.25);
+  border-radius: 10px;
+  position: relative;
+  min-height: 150px;
+}
+
+.stratModalBtn {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
 .vaultStatsContainer {
   display: flex;
   align-items: center;

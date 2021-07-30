@@ -6,6 +6,16 @@
   width: 100%;
 }
 
+.lineDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(104,108,122,0.3);
+}
+
+.accHeading {
+  margin-left: -24px !important;
+}
+
 .strategyName {
   flex: 1;
   display: flex;
@@ -13,6 +23,35 @@
   justify-content: space-between;
   align-items: flex-start;
   cursor: pointer;
+}
+
+.stratDescBox {
+  width: 100% !important;
+  display: block !important;
+}
+
+.stratDesc {
+  color: rgb(128,128,128);
+  width: 100%;
+  font-size: 14px !important;
+  line-height: 1.4em !important;
+  margin-bottom: 20px !important;
+}
+
+.stratScan {
+  width: auto;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 20px 30px !important;
+  padding: 0 !important;
+  height: 55px;
+  background: none;
+  border: 1px solid rgba(104,108,122,0.3);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 6px;
 }
 
 .strategyNameText {

@@ -357,7 +357,7 @@ export default function Deposit({ vault }) {
         }
       </div>
       <div className={classes.scaleContainer}>
-        <Tooltip title="25% of your wallet balance">
+        <Tooltip arrow={true} title="25% of your wallet balance">
           <Button
             className={classes.scale}
             variant="outlined"
@@ -369,7 +369,7 @@ export default function Deposit({ vault }) {
             <Typography variant={'h5'}>25%</Typography>
           </Button>
         </Tooltip>
-        <Tooltip title="50% of your wallet balance">
+        <Tooltip arrow={true} title="50% of your wallet balance">
           <Button
             className={classes.scale}
             variant="outlined"
@@ -381,7 +381,7 @@ export default function Deposit({ vault }) {
             <Typography variant={'h5'}>50%</Typography>
           </Button>
         </Tooltip>
-        <Tooltip title="75% of your wallet balance">
+        <Tooltip arrow={true} title="75% of your wallet balance">
           <Button
             className={classes.scale}
             variant="outlined"
@@ -393,7 +393,7 @@ export default function Deposit({ vault }) {
             <Typography variant={'h5'}>75%</Typography>
           </Button>
         </Tooltip>
-        <Tooltip title="100% of your wallet balance">
+        <Tooltip arrow={true} title="100% of your wallet balance">
           <Button
             className={classes.scale}
             variant="outlined"

@@ -3,19 +3,80 @@
   cursor: pointer;
 }
 
+.OverviewContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 30px;
+  padding-bottom: 0;
+}
+
+.MuiTooltip-tooltipArrow {
+  border: 10px solid red !important;
+}
+
 .circleSkeleton {
   margin-right: 20px;
 }
 
-.investContainer {
+.noInvestments {
+  width: calc(100% -60px);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border: 1px solid rgba(108,108,123,0.2);
+  margin: 85px 30px 30px 30px;
+  text-align: center;
+  height: calc(100vh - 115px);
+}
+
+.animClass {
+  width: 280px;
+  margin: auto;
+  margin-top: -120px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.noneText {
+  margin: -65px 0 0px 0 !important;
+  font-size: 1.6em !important;
+}
+
+.noneSubText {
+  margin: auto !important;
+  margin-bottom: 30px !important;
+  margin-top: -10px !important;
+  max-width: 560px;
+  font-size: 1.15em !important;
+  text-align: center;
+  color: rgba(104,108,122,0.8) !important;
+}
+
+.noneIcon {
+  font-size: 60px !important;
+}
+
+.browseBtn {
+  border-radius: 60px !important;
+  padding: 8px 25px !important;
+}
+
+/* .myAssetsPaper {
+  background: red !important;
+} */
+
+.myInvestmentsContainer {
   height: 100%;
-  padding: 0px 30px;
+  padding: 10px 30px 0 30px;
   display: flex;
   flex-direction: column;
 }
-.overviewTopPerformersContainer {
-  margin: 30px 0;
-}
+
 .growthanimclass {
   transform: scale(0.65);
   margin-top: 3px;
@@ -113,6 +174,15 @@
   font-size: 2rem !important;
 }
 
+.infoIcon {
+  color: rgba(104,108,122, 0.5);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 18px !important;
+  cursor: help;
+}
+
 .vaultsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -120,6 +190,15 @@
   align-items: flex-start;
   padding-top: 0px;
   padding-bottom: 50px;
+}
+
+.AssetsTitleMain {
+  font-size: 1.3em !important;
+  margin-bottom: 40px !important;
+}
+
+.AssetsTitleMain span {
+  color: red;
 }
 
 .searchContainer {
@@ -231,7 +310,7 @@
   border: 1px solid rgba(108,108,123, 0) !important;
 }
 
-.vaultFilters {
+.vaultFiltersTop {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -243,6 +322,44 @@
   top: 60px;
   padding: 10px 0;
   z-index: 9;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(108,108,123, 0.2)
+}
+
+.dashboardTitle {
+  margin-right: 20px !important;
+  font-weight: 700 !important;
+}
+
+.dashboardBtn {
+  margin-left: 15px !important;
+  border-radius: 40px !important;
+  padding: 8px 40px !important;
+  font-weight: 700 !important;
+  border: 1px solid #3E7DFF !important;
+}
+
+
+.dashboardBtnDisabled {
+  margin-left: 15px !important;
+  border-radius: 40px !important;
+  padding: 8px 40px !important;
+  font-weight: 700 !important;
+}
+
+.vaultFilters {
+  width: 100%;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 0px 0px 0px;
+  background: #111729;
+  position: sticky;
+  top: 60px;
+  padding: 10px 0;
+  z-index: 10020;
   border-radius: 0 !important;
   box-shadow: none !important;
   border-bottom: 1px solid rgba(108,108,123, 0.2)
@@ -346,20 +463,6 @@
   border-radius: 10px;
 }
 
-.overviewContainer2 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  position: relative;
-  width: 100%;
-  padding: 30px 70px 30px 70px;
-  z-index: 9;
-  top: 60px;
-  border-bottom: 1px solid rgba(108,108,123, 0.2);
-  border-radius: 0px !important;
-}
-
 .separator {
   border-right: 1px solid rgba(108,108,123, 0.15);
   height: 100px;
@@ -369,23 +472,40 @@
 }
 
 .overviewCard,
-.overviewCardLast {
+.overviewCardLast,
+.overviewCardFull {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex: 1;
+  height: calc(100% - 25px);
+  min-height: 200px;
+  background: none;
+  padding: 60px;
+  border-radius: 10px;
+  border: 1px solid rgba(108,108,123, 0.2);
+  position: relative;
+}
+
+.overviewCard {
+  margin: 0 25px 25px 0;
+  padding: 0 !important;
+}
+
+.overviewTitle,
+.overviewValue {
+  text-align: center !important;
 }
 
 .overviewCard h2,
 .overviewCardLast h2 {
   color: rgba(108,108,123, 0.9);
-  background: rgba(108,108,123, 0.1);
+  background: rgba(108,108,123, 0);
   margin-bottom: 6px;
-  padding: 4px 12px;
+  padding: 0;
   text-transform: uppercase;
   font-size: 12px !important;
-  border-radius: 25px;
-  text-align: center;
+  text-align: left;
 }
 
 .headAmount {
@@ -416,7 +536,7 @@
 }
 
 @media screen and (max-width: 1600px) {
-  .investContainer {
+  .myInvestmentsContainer {
     padding: 0px 24px;
   }
   .overviewContainer {
@@ -440,7 +560,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .investContainer {
+  .myInvestmentsContainer {
     padding: 24px;
   }
 
@@ -454,7 +574,7 @@
     margin: 10px 0 30px 0;
   }
 
-  .overviewContainer2 {
+  /* .OverviewContainer {
     width: 100%;
     padding: 45px 12px;
     padding-left: 70px;
@@ -463,11 +583,11 @@
     border-top: 1px solid rgba(108,108,123, 0.2);
     border-bottom: 1px solid rgba(108,108,123, 0.2);
     border-radius: 0px !important;
-  }
+  } */
 
   .vaultFilters {
     width: 100%;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
@@ -522,13 +642,14 @@
     height: 0px;
   }
   .overviewCard,
-  .overviewCardLast {
+  .overviewCardLast,
+  .overviewCardFull {
     padding-bottom: 12px;
   }
   .spllitContainer {
     display: none;
   }
-  .investContainer {
+  .myInvestmentsContainer {
     padding: 20px;
   }
   .portfolioBalanceCombined {
@@ -572,17 +693,18 @@
 
 @media screen and (max-width: 960px) {
 
-  .overviewContainer2 {
+  .OverviewContainer {
     padding: 30px 10px;
     padding-left: 70px;
   }
 
   .overviewText {
-    margin-left: 20px;
+    margin-left: 0px;
   }
 
   .overviewCard,
-  .overviewCardLast {
+  .overviewCardLast,
+  .overviewCardFull {
     margin: 0;
     margin-right: 48px;
     padding: 0 0 25px 0;
