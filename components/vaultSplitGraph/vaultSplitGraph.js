@@ -51,14 +51,19 @@ export default function VaultSplitGraph({ vaults }) {
     });
 
   const COLORS = [
-    "#003f5c",
-    "#2f4b7c",
-    "#665191",
-    "#a05195",
-    "#d45087",
-    "#f95d6a",
-    "#ff7c43",
-    "#ffa600"
+    "#0045ff",
+    "#1162df",
+    "#1d76ca",
+    "#2686b8",
+    "#2f96a7",
+    "#c57fa4",
+    "#fa6faa",
+    "#f5921d",
+    "#f8682f",
+    "#ff005e",
+    "#da0052",
+    "#b60046",
+    "#93003a"
   ];
   const onPieEnter = (data, index) => {
     setActiveIndex(index);

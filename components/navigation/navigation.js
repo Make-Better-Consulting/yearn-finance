@@ -111,38 +111,6 @@ function InvestIconSelected(props) {
   );
 }
 
-function DashIcon(props) {
-  const { color, className } = props;
-  return (
-    <SvgIcon viewBox="0, 0, 22, 22" className={classes.iconhackNewNormal}>
-      <path fill={color} d="M8,0C3.589,0,0,3.589,0,8s3.589,8,8,8s8-3.589,8-8S12.411,0,8,0z M13.91,9H8.677L6.929,4.628L5.071,5.372 L6.523,9H2.09C2.035,8.674,2,8.341,2,8c0-3.309,2.691-6,6-6s6,2.691,6,6C14,8.341,13.965,8.674,13.91,9z"></path>
-    </SvgIcon>
-  );
-}
-
-function DashIconSelected(props) {
-  const { color, altColor, className } = props;
-  return (
-    <div
-      style={{
-        width: '30px',
-        height: '30px',
-        background: color,
-        borderRadius: "30px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: "17px",
-        marginLeft: '15px',
-      }}
-    >
-    <SvgIcon viewBox="0, 0, 24, 24" className={classes.iconhackNew}>
-      <path fill={altColor} d="M8,0C3.589,0,0,3.589,0,8s3.589,8,8,8s8-3.589,8-8S12.411,0,8,0z M13.91,9H8.677L6.929,4.628L5.071,5.372 L6.523,9H2.09C2.035,8.674,2,8.341,2,8c0-3.309,2.691-6,6-6s6,2.691,6,6C14,8.341,13.965,8.674,13.91,9z"></path>
-    </SvgIcon>
-    </div>
-  );
-}
-
 function StatsIcon(props) {
   const { color, className } = props;
   return (
@@ -237,8 +205,7 @@ function LTVIconSelected(props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginRight: "19px",
-        marginLeft: '15px',
+        marginRight: "20px",
       }}
     >
       <SvgIcon viewBox="0, 0, 24, 24" className={className}>
@@ -273,8 +240,7 @@ function CDPIconSelected(props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginRight: "19px",
-        marginLeft: '15px',
+        marginRight: "14px",
       }}
     >
       <SvgIcon viewBox="0, 0, 24, 24" className={className}>
@@ -387,22 +353,6 @@ function Navigation(props) {
   const renderNavs = () => {
     return (
       <React.Fragment>
-      {account &&
-        account.address &&
-        renderNav(
-          "Dashboard",
-          "dashboard",
-          <DashIcon
-            className={classes.icon}
-            color={darkMode ? "white" : "rgb(33, 37, 41)"}
-            altColor={darkMode ? "rgb(33, 37, 41)" : "white"}
-          />,
-          <DashIconSelected
-            className={classes.iconSelected}
-            color={darkMode ? "white" : "rgb(33, 37, 41)"}
-            altColor={darkMode ? "rgb(33, 37, 41)" : "white"}
-          />
-        )}
         {renderNav(
           "Invest",
           "invest",
@@ -505,7 +455,7 @@ function Navigation(props) {
         {activePath.includes("/" + link)
           ? iconSelected
           : icon}
-        <Typography className={classes.navLinkItem} variant="h2">{title}</Typography>
+        <Typography variant="h2">{title}</Typography>
       </div>
     );
   };

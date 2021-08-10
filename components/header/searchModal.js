@@ -11,15 +11,10 @@ import stores from '../../stores/index.js';
 import BigNumber from 'bignumber.js';
 import { useRouter } from 'next/router';
 
-import Lottie from "lottie-react";
-import scanBG from "../../public/lottiefiles/ltv-anim-2.json";
-
-import classes from "./header.module.css";
-
 const styles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   closeButton: {
     position: 'absolute',
@@ -98,14 +93,10 @@ export default function SearchModal(props) {
   return (
     <div>
       <Dialog onClose={handleClose} aria-labelledby="search-modal-title" open={open}>
-        <div className={classes.quickSearchWrap}>
-        <div className={classes.lottieWrap}>
-          <Lottie className={classes.lottieBG} animationData={scanBG} />
-        </div>
         <DialogTitle id="search-modal-title" onClose={handleClose}>
-          <Typography className={classes.quickSearchTitle} variant="h6">Find the best yield for your favorite asset</Typography>
+          Find the best yield for your favorite asset
         </DialogTitle>
-        <div style={{ padding: '0 30px' }}>
+        <div style={{ padding: '15px' }}>
           <Autocomplete
             id="q"
             options={filteredVaults.sort((a, b) => -a.type.localeCompare(b.type))}
@@ -126,7 +117,6 @@ export default function SearchModal(props) {
             Close
           </Button>
         </DialogActions>
-        </div>
       </Dialog>
     </div>
   );

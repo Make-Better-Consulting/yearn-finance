@@ -36,16 +36,11 @@ const theme = createMuiTheme({
     },
     MuiTooltip: {
       tooltip: {
-        background: "#FFF !important",
+        background: "#000 !important",
         border: "1px solid #fff",
         borderRadius: "8px",
-        color: "#30323c",
-        fontSize: "13px",
-        padding: '15px 20px',
-        textAlign: 'center',
-      },
-      arrow: {
-        color: '#FFF',
+        color: "#fff",
+        fontSize: "13px"
       }
     }
   }

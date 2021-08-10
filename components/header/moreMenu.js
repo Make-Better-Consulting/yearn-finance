@@ -14,7 +14,11 @@ import classes from './moreMenu.module.css';
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
+    border: '1px solid rgba(104,108,122,0.3)',
+    fontSize: '12px !important',
+  },
+  list: {
+    fontSize: '12px !important',
   },
 })((props) => (
   <Menu

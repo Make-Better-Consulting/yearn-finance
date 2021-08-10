@@ -74,14 +74,12 @@ export default function VaultLockupNotice({ vault, account }) {
             Since it locks CRV in Curve Voting Escrow for 4 years and regularly
             prolongs the lock, this vault doesn't have withdrawal functionality.
           </Typography>
-          <Typography className={classes.paragraphWarning} variant="h5">
+          <Typography className={classes.paragraph} variant="h5">
             You will NOT get your CRV back. Ever.
           </Typography>
         </div>
-
         <div>
           {account && account.address && (
-
             <div className={classes.vaultInfoField}>
               <Typography variant="subtitle1" color="textSecondary">
                 Vault vs Solo
@@ -94,9 +92,7 @@ export default function VaultLockupNotice({ vault, account }) {
                 )}
               </Typography>
             </div>
-
           )}
-
           {account && account.address && (
             <div className={classes.vaultInfoField}>
               <Typography variant="subtitle1" color="textSecondary">
@@ -130,7 +126,7 @@ export default function VaultLockupNotice({ vault, account }) {
             </div>
           )}
           {account && account.address && (
-            <Paper elevation={0} className={classes.claimActionContainer}>
+            <Paper elevation={2} className={classes.claimActionContainer}>
               <GasSpeed setParentSpeed={setSpeed} />
               <div className={classes.actionButton}>
                 <Button

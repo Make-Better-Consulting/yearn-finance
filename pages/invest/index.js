@@ -392,7 +392,7 @@ function Invest({ changeTheme }) {
           <Grid container spacing={3}>
             <Grid item lg={4} md={4} xs={12} sm={12}>
               <div className={classes.overviewCard}>
-                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />}
+                {porfolioBalance !== null ? <VaultSplitGraph vaults={vaults} /> : <Skeleton variant="circle" width={80} height={80} />}
                 <div className={classes.overviewText}>
                   <Typography variant="h2">Portfolio Balance</Typography>
                   <Typography variant="h1" className={classes.headAmount}>
@@ -406,9 +406,10 @@ function Invest({ changeTheme }) {
                 {porfolioBalance !== null ? (
                   <div className={classes.portfolioOutline}>
                     <Lottie className={classes.growthanimclass} animationData={growthanim} />
+
                   </div>
                 ) : (
-                  <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />
+                  <Skeleton variant="circle" width={80} height={80} />
                 )}
                 <div className={classes.overviewText}>
                   <Typography variant="h2">Yearly Growth</Typography>
@@ -426,10 +427,11 @@ function Invest({ changeTheme }) {
               <div className={classes.overviewCardLast}>
                 {porfolioBalance !== null ? (
                   <div className={classes.portfolioOutline}>
+                    {' '}
                     <Lottie className={classes.rocketanimclass} animationData={rocket} />
                   </div>
                 ) : (
-                  <Skeleton className={classes.circleSkeleton} variant="circle" width={80} height={80} />
+                  <Skeleton variant="circle" width={80} height={80} />
                 )}
                 <div className={classes.overviewText}>
                   <Typography variant="h2">Highest Balance</Typography>
@@ -475,7 +477,7 @@ function Invest({ changeTheme }) {
             className={classes.searchContainer}
             variant="outlined"
             fullWidth
-            placeholder="Search Vaults: ETH, CRV, ..."
+            placeholder="ETH, CRV, ..."
             value={search}
             onChange={onSearchChanged}
             InputProps={{

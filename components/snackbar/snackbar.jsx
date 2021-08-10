@@ -5,7 +5,7 @@ import { colors } from '../../theme/coreTheme';
 
 const iconStyle = {
   fontSize: '22px',
-  marginRight: '20px',
+  marginRight: '10px',
   verticalAlign: 'middle',
 };
 
@@ -87,7 +87,7 @@ class MySnackbar extends Component {
     let color = colors.blue;
     let messageType = '';
     let actions = [
-      <IconButton style={{ marginRight: '20px' }} key="close" aria-label="Close" onClick={this.handleClose}>
+      <IconButton key="close" aria-label="Close" onClick={this.handleClose}>
         <CloseIcon />
       </IconButton>,
     ];
@@ -147,7 +147,7 @@ class MySnackbar extends Component {
         message={
           <div
             style={{
-              padding: '22px',
+              padding: '12px',
               borderLeft: '5px solid ' + color,
               borderRadius: '4px',
             }}
@@ -161,15 +161,10 @@ class MySnackbar extends Component {
                 overflowX: 'hidden'
               }}
             >
-              <Typography variant="body1" style={{
-                fontSize: '14px',
-                fontWeight: '700',
-                color: color,
-                marginBottom: '6px'
-              }}>
+              <Typography variant="body1" style={{ fontSize: '12px', color: color }}>
                 {messageType}
               </Typography>
-              <Typography variant="body1" style={{ fontSize: '12px' }}>
+              <Typography variant="body1" style={{ fontSize: '10px' }}>
                 {message}
               </Typography>
             </div>

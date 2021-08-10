@@ -3,13 +3,9 @@
   cursor: pointer;
 }
 
-.circleSkeleton {
-  margin-right: 20px;
-}
-
 .investContainer {
   height: 100%;
-  padding: 0px 50px;
+  padding: 0px 30px;
   display: flex;
   flex-direction: column;
 }
