@@ -106,4 +106,8 @@
   .strategyName {
     align-items: flex-start;
   }
+
+  .accHeading {
+    margin-left: -5px !important;
+  }
 }

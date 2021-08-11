@@ -4,20 +4,27 @@ import Modal from '@material-ui/core/Modal';
 
 import VaultStrategyCard from './stratModal.js';
 
+import classes from './vaultStrategyCard.module.css';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 600,
+    width: '50%',
     backgroundColor: theme.palette.background.paper,
     border: '1px solid rgba(104,108,122,0.4)',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     top: '80px',
-    left: '50%',
-    marginLeft: '-300px',
+    left: '25%',
     borderRadius: '10px',
     maxHeight: '660px',
     overflow: 'scroll',
+  },
+  '@media (max-width: 960px)': {
+    paper: {
+      width: '90%',
+      left: '5%',
+    }
   },
   strategiesBtn: {
     border: '1px solid rgba(104,108,122,0.3)',

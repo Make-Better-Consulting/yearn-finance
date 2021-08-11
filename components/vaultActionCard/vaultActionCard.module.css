@@ -39,26 +39,42 @@
   border-radius: 10px !important;
 }
 
-.disabledWarning {
-  padding-top: 24px;
+.disabledMsg {
+  background: #ad2c51;
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 8px;
+}
+
+.disabledWarningTitle {
   display: flex;
+  color: #fff !important;
   align-items: center;
+}
+
+.disabledWarning {
+  color: #fff !important;
+  margin-top: 13px !important;
+  font-size: 14px !important;
+  line-height: 1.3em !important;
 }
 
 .disabledIcon {
   margin-right: 12px;
+  color: #fff !important;
 }
 
 .gainedTitleContainer {
   width: 100%;
-  height: 50px;
+  height: 53px;
   /* padding: 10px;
   padding-top: 1px; */
   position: relative;
   background: none;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 1px solid rgba(104,108,122,0.3);
+  border: 2px solid #619f6b;
+  overflow: hidden;
 }
 
 .gainedTxt {
@@ -142,6 +158,7 @@
 @media screen and (max-width: 1000px) {
   .vaultActionContainer {
     margin-bottom: 24px;
+    width: calc(100vw - 95px);
   }
 }
 

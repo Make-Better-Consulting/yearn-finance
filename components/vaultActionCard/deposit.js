@@ -534,10 +534,12 @@ export default function Deposit({ vault }) {
       {
         depositDisabledMessage &&
         <>
-          <Typography variant='h5' className={ classes.disabledWarning }><InfoIcon className={ classes.disabledIcon } />Deposits Temporarily Disabled</Typography>
-          <Typography className={ classes.disabledWarning }>
-            { depositDisabledMessage }
-          </Typography>
+          <div className={classes.disabledMsg}>
+            <Typography variant='h5' className={ classes.disabledWarningTitle }><InfoIcon className={ classes.disabledIcon } />v1 Deposits Temporarily Disabled</Typography>
+            <Typography className={ classes.disabledWarning }>
+              { depositDisabledMessage }
+            </Typography>
+          </div>
         </>
       }
     </div>
