@@ -9,10 +9,11 @@ import lightTheme from '../theme/light';
 import darkTheme from '../theme/dark';
 
 import Configure from './configure';
+import LocationWarning from '../components/locationWarning'
 
 import stores from '../stores/index.js';
 
-import { CONFIGURE, VAULTS_CONFIGURED, ACCOUNT_CONFIGURED, LENDING_CONFIGURED, CDP_CONFIGURED } from '../stores/constants';
+import { CONFIGURE, VAULTS_CONFIGURED, ACCOUNT_CONFIGURED, LENDING_CONFIGURED } from '../stores/constants';
 
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -21,7 +22,8 @@ export default function MyApp({ Component, pageProps }) {
   const [vaultConfigured, setVaultConfigured] = useState(false);
   const [accountConfigured, setAccountConfigured] = useState(false);
   const [lendingConfigured, setLendingConfigured] = useState(false);
-  const [cdpConfigured, setCDPConfigured] = useState(false);
+  const [locationWarningOpen, setLocationWarningOpen] = useState(false);
+  const [locationData] = useState(null);
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -30,6 +32,24 @@ export default function MyApp({ Component, pageProps }) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+
+  useEffect(() => {
+    // not using the location data, so it doesn't matter.
+    // const geoURL = 'https://geolocation-db.com/json/'
+    //
+    // axios.get(geoURL)
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log(response.data);
+    //     if(response && response.data) {
+    //       setLocationData(locationData)
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+  }, [])
 
   const changeTheme = (dark) => {
     setThemeConfig(dark ? darkTheme : lightTheme);
@@ -48,20 +68,18 @@ export default function MyApp({ Component, pageProps }) {
     setLendingConfigured(true);
   };
 
-  const cdpConfigureReturned = () => {
-    setCDPConfigured(true);
-  };
-
   useEffect(function () {
     const localStorageDarkMode = window.localStorage.getItem('yearn.finance-dark-mode');
     changeTheme(localStorageDarkMode ? localStorageDarkMode === 'dark' : false);
+
+    const localStorageWarningAccepted = window.localStorage.getItem('yearn.finance-warning-accepted');
+    setLocationWarningOpen(localStorageWarningAccepted ? localStorageWarningAccepted !== 'accepted' : true);
   }, []);
 
   useEffect(function () {
     stores.emitter.on(VAULTS_CONFIGURED, vaultsConfigureReturned);
     stores.emitter.on(ACCOUNT_CONFIGURED, accountConfigureReturned);
     stores.emitter.on(LENDING_CONFIGURED, lendingConfigureReturned);
-    stores.emitter.on(CDP_CONFIGURED, cdpConfigureReturned);
 
     stores.dispatcher.dispatch({ type: CONFIGURE });
 
@@ -69,7 +87,6 @@ export default function MyApp({ Component, pageProps }) {
       stores.emitter.removeListener(VAULTS_CONFIGURED, vaultsConfigureReturned);
       stores.emitter.removeListener(ACCOUNT_CONFIGURED, accountConfigureReturned);
       stores.emitter.removeListener(LENDING_CONFIGURED, lendingConfigureReturned);
-      stores.emitter.removeListener(CDP_CONFIGURED, cdpConfigureReturned);
     };
   }, []);
 
@@ -81,8 +98,6 @@ export default function MyApp({ Component, pageProps }) {
         return vaultConfigured && accountConfigured;
       case '/lend':
         return lendingConfigured && accountConfigured;
-      case '/cdp':
-        return cdpConfigured && accountConfigured;
       case '/ltv':
         return accountConfigured;
       case '/stats':
@@ -91,6 +106,11 @@ export default function MyApp({ Component, pageProps }) {
         return vaultConfigured && accountConfigured;
     }
   };
+
+  const closeWarning = () => {
+    window.localStorage.setItem('yearn.finance-warning-accepted', 'accepted');
+    setLocationWarningOpen(false)
+  }
 
   return (
     <React.Fragment>
@@ -103,6 +123,9 @@ export default function MyApp({ Component, pageProps }) {
         <CssBaseline />
         {validateConfigured() && <Component {...pageProps} changeTheme={changeTheme} />}
         {!validateConfigured() && <Configure {...pageProps} />}
+        { locationWarningOpen &&
+          <LocationWarning close={ closeWarning } locationData={ locationData } />
+        }
       </ThemeProvider>
     </React.Fragment>
   );
